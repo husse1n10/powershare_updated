@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="Electron" version="29.0.3">
+  <diagram name="Meter Assignment _ Activity Diagram" id="psmeter-diagram">
+    <mxGraphModel grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="1670" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="psmeter-title" value="PowerShare - Generator Management System&lt;br&gt;Meter Assignment" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="25" width="690" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-subtitle" value="Activity Diagram" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="805" y="25" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-start" value="Start" style="shape=ellipse;aspect=fixed;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="45.0" y="115.0" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-actor" value="Generator owner or admin&lt;br&gt;opens Subscriber applications" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="190.0" y="105.0" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-scope" value="Owner sees applications for own&lt;br&gt;generators; admin sees all" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="700.0" y="105.0" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-select" value="Select a pending application" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="710.0" y="262.5" width="280" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-review" value="Review chosen generator&lt;br&gt;and installation address" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="710.0" y="400.0" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-input" value="Enter meter number; choose an&lt;br&gt;active plan for requested generator&lt;br&gt;and enter initial reading" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="695.0" y="545.0" width="310" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-valid" value="Details valid and&lt;br&gt;meter available?" style="shape=rhombus;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="735.0" y="705.0" width="230" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-error" value="Show validation error" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="360.0" y="732.5" width="240" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-save" value="Save and link subscriber profile,&lt;br&gt;meter and subscription together" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="695.0" y="895.0" width="310" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-saved" value="Saved&lt;br&gt;successfully?" style="shape=rhombus;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="750.0" y="1050.0" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-save_error" value="Keep application pending;&lt;br&gt;show error and allow retry" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="345.0" y="1065.0" width="270" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-assigned" value="Mark application Assigned;&lt;br&gt;record who assigned the meter" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="710.0" y="1227.5" width="280" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-notify" value="Notify subscriber; show assigned&lt;br&gt;meter in subscriber dashboard" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="695.0" y="1385.0" width="310" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-end" value="End" style="shape=ellipse;aspect=fixed;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="815.0" y="1555.0" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-0" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-start" target="psmeter-actor">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-1" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-actor" target="psmeter-scope">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-2" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-scope" target="psmeter-select">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-3" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-select" target="psmeter-review">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-4" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-review" target="psmeter-input">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-5" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-input" target="psmeter-valid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-6" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=1.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-valid" target="psmeter-error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-label-6" value="No" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="648" y="740" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-7" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=0.0;entryX=0.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-error" target="psmeter-input">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="psmeter-flow-8" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-valid" target="psmeter-save">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-label-8" value="Yes" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="858" y="855" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-9" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-save" target="psmeter-saved">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-10" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=1.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-saved" target="psmeter-save_error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-label-10" value="No" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="668" y="1080" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-11" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=0.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-save_error" target="psmeter-select">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="1110" />
+              <mxPoint x="280" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="psmeter-flow-12" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-saved" target="psmeter-assigned">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-label-12" value="Yes" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="858" y="1190" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-13" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-assigned" target="psmeter-notify">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psmeter-flow-14" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psmeter-notify" target="psmeter-end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

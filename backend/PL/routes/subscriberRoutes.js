@@ -1,0 +1,20 @@
+'use strict';
+const express=require('express');
+const {body,param}=require('express-validator');
+const c=require('../controllers/subscriberController');
+const h=require('../../utils/asyncHandler');
+const {authenticate,requireSubscriber}=require('../../middleware/auth');
+const {validate}=require('../../middleware/validate');
+
+const r=express.Router();
+r.use(authenticate,requireSubscriber);
+const id=(name='id')=>param(name).isInt({min:1});
+r.get('/dashboard',h(c.dashboard));
+r.get('/subscription',h(c.subscription));
+r.get('/consumption',h(c.consumption));
+r.get('/bills',h(c.bills));
+r.get('/bills/:id',[id()],validate,h(c.bill));
+r.get('/payments',h(c.payments));
+r.get('/outages',h(c.outages));
+r.post('/bills/:id/simulated-payment',[id(),body('amount_lbp').optional().isFloat({gt:0}),body('amount_usd').optional().isFloat({gt:0})],validate,h(c.simulatePayment));
+module.exports=r;

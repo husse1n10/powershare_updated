@@ -1,0 +1,13 @@
+'use strict';
+const express=require('express');const {body}=require('express-validator');const rateLimit=require('express-rate-limit');
+const c=require('../controllers/authController');const h=require('../../utils/asyncHandler');const {authenticate}=require('../../middleware/auth');const {validate}=require('../../middleware/validate');
+const r=express.Router();const loginLimiter=rateLimit({windowMs:15*60*1000,max:20,standardHeaders:true,legacyHeaders:false});
+r.post('/login',loginLimiter,[body('username').trim().isLength({min:1,max:190}),body('password').isLength({min:1,max:128})],validate,h(c.login));
+r.get('/registration-destinations',h(c.registrationDestinations));
+r.post('/register',[body('full_name').trim().isLength({min:2,max:150}),body('username').trim().isLength({min:3,max:80}).matches(/^[A-Za-z0-9_.-]+$/),body('password').isLength({min:4,max:128}).matches(/^[A-Za-z0-9]+$/),body('phone').trim().isLength({min:6,max:30}),body('generator_id').isInt({min:1,max:2147483647}),body('location_address').trim().isLength({min:2,max:400}),body('email').optional({checkFalsy:true}).isEmail().isLength({max:150}),body('preferred_language').optional().isIn(['en','ar'])],validate,h(c.register));
+r.post('/refresh',h(c.refresh));
+r.post('/logout',h(c.logout));
+r.get('/me',authenticate,h(c.me));
+r.put('/profile',authenticate,[body('full_name').optional().trim().isLength({min:2,max:150}),body('username').optional().trim().isLength({min:3,max:80}).matches(/^[A-Za-z0-9_.-]+$/),body('email').optional({checkFalsy:true}).isEmail().isLength({max:150}),body('phone').optional({checkFalsy:true}).trim().isLength({min:6,max:30}).matches(/^[+0-9() .-]+$/),body('preferred_language').optional().isIn(['en','ar'])],validate,h(c.updateProfile));
+r.put('/change-password',authenticate,[body('current_password').isLength({min:1,max:128}),body('new_password').isLength({min:4,max:128}).matches(/^[A-Za-z0-9]+$/)],validate,h(c.changePassword));
+module.exports=r;

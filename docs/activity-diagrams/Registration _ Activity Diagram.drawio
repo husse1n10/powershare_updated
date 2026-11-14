@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="Electron" version="29.0.3">
+  <diagram name="Registration _ Activity Diagram" id="psreg-diagram">
+    <mxGraphModel grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="1680" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="psreg-title" value="PowerShare - Generator Management System&lt;br&gt;Registration" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="25" width="690" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-subtitle" value="Activity Diagram" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="805" y="25" width="220" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-start" value="Start" style="shape=ellipse;aspect=fixed;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="45.0" y="115.0" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-display" value="Display subscriber&lt;br&gt;registration page" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="175.0" y="115.0" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-input" value="Enter full name, username,&lt;br&gt;phone, password and&lt;br&gt;optional email" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="395.0" y="95.0" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-destination" value="Choose where to apply&lt;br&gt;and enter installation address" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="775.0" y="105.0" width="250" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-submit" value="Submit registration&lt;br&gt;and application" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="790.0" y="255.0" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-valid" value="Required details&lt;br&gt;and destination valid?" style="shape=rhombus;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="790.0" y="380.0" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-validation_error" value="Show validation error" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="490.0" y="405.0" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-check_unique" value="Check username and&lt;br&gt;optional email" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="790.0" y="545.0" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-duplicate" value="Username or supplied&lt;br&gt;email already used?" style="shape=rhombus;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="790.0" y="660.0" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-duplicate_error" value="Show username / email&lt;br&gt;already exists error" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="490.0" y="677.5" width="220" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-hash" value="Hash password" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="790.0" y="825.0" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-create" value="Create active account and&lt;br&gt;application for chosen destination;&lt;br&gt;status: Awaiting meter assignment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="755.0" y="945.0" width="290" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-created" value="Saved&lt;br&gt;successfully?" style="shape=rhombus;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="810.0" y="1100.0" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-creation_error" value="Roll back partial changes;&lt;br&gt;show error and allow retry" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="480.0" y="1105.0" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-audit" value="Record registration; notify&lt;br&gt;responsible owner and admin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="765.0" y="1250.0" width="270" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-success" value="Confirm account created;&lt;br&gt;subscriber can log in now" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="775.0" y="1390.0" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-login" value="Redirect to login page" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="775.0" y="1535.0" width="250" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-end" value="End" style="shape=ellipse;aspect=fixed;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="565.0" y="1535.0" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-0" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-start" target="psreg-display">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-1" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-display" target="psreg-input">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-2" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=1.0;exitY=0.5;entryX=0.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-input" target="psreg-destination">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-3" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-destination" target="psreg-submit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-4" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-submit" target="psreg-valid">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-5" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=1.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-valid" target="psreg-validation_error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-label-5" value="No" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="733" y="412" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-6" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=0.86;entryY=1.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-validation_error" target="psreg-input">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="440" />
+              <mxPoint x="370" y="280" />
+              <mxPoint x="610" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="psreg-flow-7" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-valid" target="psreg-check_unique">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-label-7" value="Yes" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="906" y="512" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-8" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-check_unique" target="psreg-duplicate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-9" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=1.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-duplicate" target="psreg-duplicate_error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-label-9" value="Yes" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="733" y="692" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-10" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=0.68;entryY=1.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-duplicate_error" target="psreg-input">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="720" />
+              <mxPoint x="350" y="260" />
+              <mxPoint x="565" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="psreg-flow-11" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-duplicate" target="psreg-hash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-label-11" value="No" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="906" y="792" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-12" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-hash" target="psreg-create">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-13" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-create" target="psreg-created">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-14" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=1.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-created" target="psreg-creation_error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-label-14" value="No" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="748" y="1122" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-15" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=0.5;entryY=1.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-creation_error" target="psreg-input">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="1150" />
+              <mxPoint x="330" y="240" />
+              <mxPoint x="520" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="psreg-flow-16" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-created" target="psreg-audit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-label-16" value="Yes" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontColor=#000000;fontSize=14;fillColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="906" y="1217" width="34" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-17" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-audit" target="psreg-success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-18" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.5;exitY=1.0;entryX=0.5;entryY=0.0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-success" target="psreg-login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="psreg-flow-19" value="" style="edgeStyle=none;endArrow=classic;endFill=1;html=1;rounded=0;strokeColor=#000000;strokeWidth=1;exitX=0.0;exitY=0.5;entryX=1.0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="psreg-login" target="psreg-end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

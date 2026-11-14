@@ -1,0 +1,1064 @@
+[
+  {
+    "id": "FR-001",
+    "title": "Login",
+    "description": "Registered users securely authenticate and are routed by role",
+    "status": "implemented",
+    "implementation": [
+      "backend/PL/routes/authRoutes.js",
+      "backend/BLL/services/authService.js",
+      "frontend/src/components/Auth/Login.js"
+    ],
+    "test_ids": [
+      "QA-AUTH-LOGIN-001",
+      "QA-AUTH-LOGIN-002",
+      "QA-AUTH-010",
+      "QA-SEC-014",
+      "QA-LIVE-AUTH-001",
+      "QA-LIVE-AUTH-007"
+    ]
+  },
+  {
+    "id": "FR-002",
+    "title": "Account Registration and Creation",
+    "description": "New subscribers choose a generator and register without a meter; login is available immediately while the responsible generator owner or an admin assigns the meter.",
+    "status": "implemented",
+    "implementation": [
+      "backend/PL/routes/authRoutes.js",
+      "backend/BLL/services/accountService.js",
+      "backend/BLL/services/authService.js",
+      "backend/DAL/repositories/accountRepository.js",
+      "frontend/src/components/Auth/Register.js",
+      "frontend/src/components/Admin/AdminPages.js",
+      "backend/BLL/services/registrationService.js",
+      "backend/DAL/repositories/registrationRepository.js",
+      "backend/database/migrations/002_subscriber_applications.sql",
+      "frontend/src/components/Admin/AdminApplications.js",
+      "frontend/src/components/Subscriber/PendingApplication.js",
+      "backend/PL/routes/ownerRoutes.js",
+      "backend/PL/controllers/ownerController.js",
+      "frontend/src/components/Shared/RouteGuards.js"
+    ],
+    "test_ids": [
+      "QA-REG-001",
+      "QA-REG-002",
+      "QA-AUTH-001",
+      "QA-AUTH-003",
+      "QA-AUTH-007",
+      "QA-AUTH-008",
+      "QA-AUTH-009",
+      "QA-AUTH-010",
+      "QA-SEC-014",
+      "QA-LIVE-SEC-007",
+      "QA-REG-005",
+      "QA-REG-006",
+      "QA-REG-007",
+      "QA-LIVE-REG-001",
+      "QA-LIVE-REG-002",
+      "QA-LIVE-REG-003",
+      "QA-LIVE-REG-004",
+      "QA-LIVE-REG-005",
+      "QA-LIVE-REG-006",
+      "QA-LIVE-REG-007",
+      "QA-REG-003",
+      "QA-REG-004",
+      "QA-REG-008",
+      "QA-LIVE-REG-008"
+    ]
+  },
+  {
+    "id": "FR-003",
+    "title": "Role-Based Access Control",
+    "description": "Admin, owner, collector and subscriber access is restricted by role",
+    "status": "implemented",
+    "implementation": [
+      "backend/middleware/auth.js",
+      "backend/BLL/domain/accessRules.js",
+      "frontend/src/components/Shared/RouteGuards.js"
+    ],
+    "test_ids": [
+      "QA-SEC-001",
+      "QA-SEC-002",
+      "QA-SEC-003",
+      "QA-RBAC-004",
+      "QA-SEC-006",
+      "QA-SEC-007",
+      "QA-LIVE-SEC-006",
+      "QA-LIVE-SEC-001"
+    ]
+  },
+  {
+    "id": "FR-004",
+    "title": "Administrator Dashboard",
+    "description": "Platform statistics, bills and platform fee collection summary",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/adminService.js",
+      "backend/DAL/repositories/adminRepository.js",
+      "frontend/src/components/Admin/AdminPages.js"
+    ],
+    "test_ids": [
+      "QA-ADMIN-001",
+      "QA-FEE-001",
+      "QA-FEE-003",
+      "QA-ADMIN-002"
+    ]
+  },
+  {
+    "id": "FR-005",
+    "title": "User Management",
+    "description": "Admin can list, search, create, update, activate and deactivate users",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/adminService.js",
+      "backend/DAL/repositories/userRepository.js",
+      "frontend/src/components/Admin/AdminPages.js"
+    ],
+    "test_ids": [
+      "QA-USER-001",
+      "QA-USER-002"
+    ]
+  },
+  {
+    "id": "FR-006",
+    "title": "Generator Owner Management",
+    "description": "Admin manages owner accounts and owner business information",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/adminService.js",
+      "backend/DAL/repositories/profileRepository.js",
+      "frontend/src/components/Admin/AdminPages.js"
+    ],
+    "test_ids": [
+      "QA-OWNERADMIN-001"
+    ]
+  },
+  {
+    "id": "FR-007",
+    "title": "Generator Management",
+    "description": "Owner manages generator identity, location, capacity and status",
+    "status": "implemented",
+    "implementation": [
+      "backend/PL/routes/ownerRoutes.js",
+      "backend/BLL/services/ownerService.js",
+      "backend/DAL/repositories/generatorRepository.js",
+      "frontend/src/components/Owner/OwnerGenerators.js"
+    ],
+    "test_ids": [
+      "QA-GEN-001",
+      "QA-GEN-002",
+      "QA-VALID-001",
+      "QA-VALID-002",
+      "QA-ERR-001",
+      "QA-LIVE-SEC-001"
+    ]
+  },
+  {
+    "id": "FR-008",
+    "title": "Main Electricity Meter Management",
+    "description": "Owner manages main meters and starting readings",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/generatorRepository.js",
+      "frontend/src/components/Owner/OwnerMainMeters.js"
+    ],
+    "test_ids": [
+      "QA-MAINMETER-001",
+      "QA-VALID-003",
+      "QA-ERR-001",
+      "QA-LIVE-UPD-002"
+    ]
+  },
+  {
+    "id": "FR-009",
+    "title": "Subscriber Management",
+    "description": "Owner manages subscriber contact, location, meter and account status",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/ownerService.js",
+      "backend/DAL/repositories/subscriberRepository.js",
+      "frontend/src/components/Owner/OwnerSubscribers.js"
+    ],
+    "test_ids": [
+      "QA-SUB-001",
+      "QA-SUB-002",
+      "QA-SEC-006",
+      "QA-SEC-007",
+      "QA-VALID-008",
+      "QA-VALID-009",
+      "QA-ERR-001",
+      "QA-LIVE-SEC-001"
+    ]
+  },
+  {
+    "id": "FR-010",
+    "title": "Subscriber Account",
+    "description": "Subscriber record can be linked to a secure login account",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/ownerService.js",
+      "backend/BLL/services/authService.js",
+      "backend/DAL/repositories/accountRepository.js"
+    ],
+    "test_ids": [
+      "QA-SUBACC-001",
+      "QA-REG-001",
+      "QA-AUTH-007",
+      "QA-SEC-012",
+      "QA-LIVE-SEC-007",
+      "QA-LIVE-BILL-001"
+    ]
+  },
+  {
+    "id": "FR-011",
+    "title": "Subscription Management",
+    "description": "Owner creates, deactivates and reactivates subscriptions",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/subscriberRepository.js",
+      "frontend/src/components/Owner/OwnerSubscribers.js"
+    ],
+    "test_ids": [
+      "QA-SUBSCRIPTION-001",
+      "QA-DATA-001",
+      "QA-DATA-002",
+      "QA-SEC-006",
+      "QA-FIN-010"
+    ]
+  },
+  {
+    "id": "FR-012",
+    "title": "Ampere Plan Management",
+    "description": "Owner defines plans by generator and amperage",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/generatorRepository.js",
+      "frontend/src/components/Owner/OwnerPlansOutages.js"
+    ],
+    "test_ids": [
+      "QA-PLAN-001",
+      "QA-VALID-004",
+      "QA-VALID-005"
+    ]
+  },
+  {
+    "id": "FR-013",
+    "title": "Monthly Pricing Management",
+    "description": "Owner stores pricing rules by month and year while preserving history",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/generatorRepository.js",
+      "backend/database/schema.sql",
+      "frontend/src/components/Owner/OwnerBills.js"
+    ],
+    "test_ids": [
+      "QA-PRICE-001",
+      "QA-DB-003",
+      "QA-VALID-006",
+      "QA-VALID-007",
+      "QA-LIVE-BILL-002",
+      "QA-LIVE-UPD-001",
+      "QA-LIVE-BILL-006"
+    ]
+  },
+  {
+    "id": "FR-014",
+    "title": "Fixed Billing Management",
+    "description": "Subscription may use fixed USD monthly billing instead of meter consumption",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/domain/billingRules.js",
+      "backend/DAL/repositories/subscriberRepository.js"
+    ],
+    "test_ids": [
+      "QA-BILL-004",
+      "QA-FIXED-UI-001",
+      "QA-VALID-008",
+      "QA-LIVE-BILL-007"
+    ]
+  },
+  {
+    "id": "FR-015",
+    "title": "Collector Management",
+    "description": "Owner creates, edits and deactivates collectors",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/ownerService.js",
+      "backend/DAL/repositories/collectorRepository.js",
+      "frontend/src/components/Owner/OwnerCollector.js",
+      "backend/DAL/repositories/accountRepository.js"
+    ],
+    "test_ids": [
+      "QA-COLLECTOR-001",
+      "QA-AUTH-006",
+      "QA-AUTH-007",
+      "QA-LIVE-AUTH-006"
+    ]
+  },
+  {
+    "id": "FR-016",
+    "title": "Collector Assignment",
+    "description": "Owner assigns collectors to generators and/or subscribers",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/collectorRepository.js",
+      "frontend/src/components/Owner/OwnerCollectorAssignments.js"
+    ],
+    "test_ids": [
+      "QA-ASSIGN-001",
+      "QA-RBAC-004",
+      "QA-LIVE-SEC-004"
+    ]
+  },
+  {
+    "id": "FR-017",
+    "title": "Meter Reading Management",
+    "description": "Authorized owner/collector records current reading with prior reading history",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/meterService.js",
+      "backend/DAL/repositories/subscriberRepository.js",
+      "frontend/src/components/Shared/MeterScanPage.js"
+    ],
+    "test_ids": [
+      "QA-BILL-001",
+      "QA-METER-001",
+      "QA-LIVE-BILL-003",
+      "QA-LIVE-BILL-004"
+    ]
+  },
+  {
+    "id": "FR-018",
+    "title": "Meter Image Upload",
+    "description": "Owner/collector uploads JPG, PNG or WEBP meter images with size limits",
+    "status": "implemented",
+    "implementation": [
+      "backend/middleware/upload.js",
+      "frontend/src/components/Shared/MeterScanPage.js",
+      "backend/BLL/services/meterService.js"
+    ],
+    "test_ids": [
+      "QA-UPLOAD-001",
+      "QA-UPLOAD-002",
+      "QA-ERR-002",
+      "QA-ERR-003",
+      "QA-UPLOAD-003",
+      "QA-UPLOAD-004",
+      "QA-UPLOAD-PRIVACY-UAT-001",
+      "QA-LIVE-UP-001",
+      "QA-LIVE-UP-003"
+    ]
+  },
+  {
+    "id": "FR-019",
+    "title": "Meter OCR Recognition",
+    "description": "OCR attempts to extract meter number and reading from image",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/meterService.js",
+      "backend/BLL/domain/ocrRules.js"
+    ],
+    "test_ids": [
+      "QA-OCR-001",
+      "QA-OCR-002",
+      "QA-OCR-003",
+      "QA-OCR-004",
+      "QA-OCR-UAT-001",
+      "QA-LIVE-UP-002"
+    ]
+  },
+  {
+    "id": "FR-020",
+    "title": "Meter Reading Confirmation",
+    "description": "OCR result is shown for confirmation before final meter reading is saved",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/meterService.js",
+      "frontend/src/components/Shared/MeterScanPage.js"
+    ],
+    "test_ids": [
+      "QA-OCR-CONFIRM-001",
+      "QA-LIVE-UP-002"
+    ]
+  },
+  {
+    "id": "FR-021",
+    "title": "Automatic Subscriber Identification",
+    "description": "Normalized detected meter number locates active subscriber",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/subscriberRepository.js",
+      "backend/BLL/services/meterService.js"
+    ],
+    "test_ids": [
+      "QA-AUTOID-001",
+      "QA-LIVE-UP-002"
+    ]
+  },
+  {
+    "id": "FR-022",
+    "title": "Automatic Consumption Calculation",
+    "description": "Current minus previous reading is validated and calculated",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/domain/billingRules.js"
+    ],
+    "test_ids": [
+      "QA-BILL-001",
+      "QA-METER-002",
+      "QA-LIVE-BILL-003"
+    ]
+  },
+  {
+    "id": "FR-023",
+    "title": "Billing and Invoice Generation",
+    "description": "Bills use plan/fixed pricing, maintenance, VAT and carried balance",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/billingService.js",
+      "backend/BLL/domain/billingRules.js",
+      "backend/DAL/repositories/billingRepository.js",
+      "frontend/src/components/Owner/OwnerBills.js"
+    ],
+    "test_ids": [
+      "QA-BILL-002",
+      "QA-BILL-003",
+      "QA-BILL-004",
+      "QA-BILL-005",
+      "QA-FIN-006",
+      "QA-FIN-010",
+      "QA-FIN-011",
+      "QA-FIN-012",
+      "QA-BILL-UAT-001",
+      "QA-LIVE-BILL-001",
+      "QA-LIVE-BILL-005",
+      "QA-LIVE-FIN-002"
+    ]
+  },
+  {
+    "id": "FR-024",
+    "title": "LBP and USD Billing Support",
+    "description": "Invoices retain LBP and USD values",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/domain/billingRules.js",
+      "backend/database/schema.sql"
+    ],
+    "test_ids": [
+      "QA-BILL-003",
+      "QA-CURRENCY-001",
+      "QA-PAY-006",
+      "QA-PAY-007",
+      "QA-PAY-008",
+      "QA-LIVE-PAY-001",
+      "QA-LIVE-BILL-007"
+    ]
+  },
+  {
+    "id": "FR-025",
+    "title": "Exchange Rate Management",
+    "description": "Exchange rate is configurable and stored per historical invoice",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/generatorRepository.js",
+      "backend/database/schema.sql",
+      "frontend/src/components/Owner/OwnerSettings.js"
+    ],
+    "test_ids": [
+      "QA-BILL-003",
+      "QA-DB-003",
+      "QA-RATE-UI-001",
+      "QA-VALID-010",
+      "QA-LIVE-BILL-006"
+    ]
+  },
+  {
+    "id": "FR-026",
+    "title": "Invoice History",
+    "description": "Owner and subscriber can review prior invoice periods",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/billingRepository.js",
+      "frontend/src/components/Owner/OwnerBills.js",
+      "frontend/src/components/Subscriber/SubscriberBills.js"
+    ],
+    "test_ids": [
+      "QA-INVOICEHIST-001",
+      "QA-INVOICE-PRINT-001",
+      "QA-INVOICE-PRINT-002",
+      "QA-INVOICE-PRINT-003",
+      "QA-PORTAL-INVOICE-001",
+      "QA-PORTAL-INVOICE-002",
+      "QA-PORTAL-INVOICE-UAT-001",
+      "QA-LIVE-BILL-006",
+      "QA-LIVE-FIN-005"
+    ]
+  },
+  {
+    "id": "FR-027",
+    "title": "Payment Management",
+    "description": "Authorized payment recording updates bill and transaction history",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/billingService.js",
+      "backend/DAL/repositories/billingRepository.js"
+    ],
+    "test_ids": [
+      "QA-PAY-002",
+      "QA-PAYMENT-UI-001",
+      "QA-PAY-004",
+      "QA-PAY-005",
+      "QA-FIN-001",
+      "QA-FIN-007",
+      "QA-FIN-008",
+      "QA-PAY-006",
+      "QA-PAY-007",
+      "QA-PAY-008",
+      "QA-CONCUR-001",
+      "QA-LIVE-PAY-001",
+      "QA-LIVE-PAY-002"
+    ]
+  },
+  {
+    "id": "FR-028",
+    "title": "Partial Payment Support",
+    "description": "Partial payments preserve remaining balance and status",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/domain/billingRules.js"
+    ],
+    "test_ids": [
+      "QA-PAY-001",
+      "QA-PAY-003",
+      "QA-FIN-007",
+      "QA-PAY-007",
+      "QA-PAYMENT-UI-002",
+      "QA-PARTIAL-UAT-001",
+      "QA-LIVE-PAY-001",
+      "QA-LIVE-PAY-003"
+    ]
+  },
+  {
+    "id": "FR-029",
+    "title": "Outstanding Balance Management",
+    "description": "Previous/current outstanding balances are maintained per invoice",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/domain/billingRules.js",
+      "backend/database/schema.sql"
+    ],
+    "test_ids": [
+      "QA-BILL-003",
+      "QA-BALANCE-001",
+      "QA-FIN-005",
+      "QA-FIN-006",
+      "QA-FIN-010",
+      "QA-PAY-006",
+      "QA-PAY-008",
+      "QA-FIN-UAT-001",
+      "QA-BALANCE-002",
+      "QA-BALANCE-003",
+      "QA-BALANCE-UAT-001",
+      "QA-LIVE-FIN-004",
+      "QA-LIVE-FIN-001"
+    ]
+  },
+  {
+    "id": "FR-030",
+    "title": "Collector Payment Collection",
+    "description": "Collector can record cash against assigned subscriber bills",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/collectorService.js",
+      "backend/BLL/services/billingService.js",
+      "frontend/src/components/Collector/CollectorBills.js",
+      "frontend/src/components/Collector/CollectorDashboard.js"
+    ],
+    "test_ids": [
+      "QA-COLPAY-001",
+      "QA-RBAC-004",
+      "QA-FIN-008",
+      "QA-COL-DASH-001",
+      "QA-COL-DASH-002",
+      "QA-COL-DASH-003",
+      "QA-LIVE-PAY-003"
+    ]
+  },
+  {
+    "id": "FR-031",
+    "title": "Collector Financial Ledger",
+    "description": "Collection and owner-settlement movements produce collector balance",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/domain/collectorRules.js",
+      "backend/DAL/repositories/collectorRepository.js"
+    ],
+    "test_ids": [
+      "QA-COL-001",
+      "QA-LEDGER-UAT-001",
+      "QA-LIVE-SET-004"
+    ]
+  },
+  {
+    "id": "FR-032",
+    "title": "Collector Settlement Management",
+    "description": "Collector requests transfer and owner confirms/rejects settlement",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/collectorService.js",
+      "backend/BLL/services/ownerService.js",
+      "frontend/src/components/Owner/OwnerCollector.js",
+      "frontend/src/components/Collector/CollectorBills.js"
+    ],
+    "test_ids": [
+      "QA-COL-002",
+      "QA-SETTLEMENT-001",
+      "QA-FIN-009",
+      "QA-CONCUR-002",
+      "QA-NOTIFY-007",
+      "QA-SETTLEMENT-NOTIFY-001",
+      "QA-FIN-013",
+      "QA-CONCUR-003",
+      "QA-FIN-014",
+      "QA-SETTLEMENT-IDEMP-001",
+      "QA-LIVE-SET-001",
+      "QA-LIVE-SET-002",
+      "QA-LIVE-SET-003"
+    ]
+  },
+  {
+    "id": "FR-033",
+    "title": "Subscriber Portal",
+    "description": "Subscriber dashboard exposes only own subscription and financial information",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/subscriberService.js",
+      "frontend/src/components/Subscriber/SubscriberDashboard.js"
+    ],
+    "test_ids": [
+      "QA-PORTAL-001",
+      "QA-RBAC-SUB-001",
+      "QA-PORTAL-INVOICE-001",
+      "QA-PORTAL-INVOICE-002",
+      "QA-PORTAL-I18N-001",
+      "QA-PORTAL-INVOICE-UAT-001",
+      "QA-PORTAL-RTL-UAT-001",
+      "QA-LIVE-SEC-005",
+      "QA-LIVE-BILL-001"
+    ]
+  },
+  {
+    "id": "FR-034",
+    "title": "Consumption History",
+    "description": "Subscriber can view meter/consumption history",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/subscriberRepository.js",
+      "frontend/src/components/Subscriber/SubscriberConsumption.js"
+    ],
+    "test_ids": [
+      "QA-CONSUMPTION-001",
+      "QA-PORTAL-I18N-001",
+      "QA-PORTAL-RTL-UAT-001"
+    ]
+  },
+  {
+    "id": "FR-035",
+    "title": "Payment History",
+    "description": "Subscriber can view completed payment transactions",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/billingRepository.js",
+      "frontend/src/components/Subscriber/SubscriberPayments.js"
+    ],
+    "test_ids": [
+      "QA-PAYHIST-001",
+      "QA-PORTAL-I18N-001",
+      "QA-PORTAL-RTL-UAT-001",
+      "QA-LIVE-SEC-005"
+    ]
+  },
+  {
+    "id": "FR-036",
+    "title": "Outage Scheduling",
+    "description": "Owner manages planned one-time outages",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/domain/outageRules.js",
+      "backend/DAL/repositories/outageRepository.js",
+      "frontend/src/components/Owner/OwnerOutages.js"
+    ],
+    "test_ids": [
+      "QA-OUT-001",
+      "QA-OUTAGE-UI-001",
+      "QA-NOTIFY-004"
+    ]
+  },
+  {
+    "id": "FR-037",
+    "title": "Recurring Outages",
+    "description": "Recurring schedule requires a valid weekday and time range",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/domain/outageRules.js"
+    ],
+    "test_ids": [
+      "QA-OUT-002",
+      "QA-RECUR-001"
+    ]
+  },
+  {
+    "id": "FR-038",
+    "title": "Subscriber Outage Information",
+    "description": "Subscriber sees outages related to own generator",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/outageRepository.js",
+      "frontend/src/components/Subscriber/SubscriberOutages.js"
+    ],
+    "test_ids": [
+      "QA-SUBOUT-001",
+      "QA-LIVE-SEC-005"
+    ]
+  },
+  {
+    "id": "FR-039",
+    "title": "Notifications",
+    "description": "Users receive/read bill, payment, outage, support and settlement notifications",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/notificationService.js",
+      "backend/DAL/repositories/notificationRepository.js",
+      "frontend/src/components/Shared/NotificationsPage.js",
+      "backend/server.js",
+      "backend/BLL/services/socketAuthService.js",
+      "frontend/src/components/Layout/Layout.js"
+    ],
+    "test_ids": [
+      "QA-NOTIFY-001",
+      "QA-NOTIFY-002",
+      "QA-NOTIFY-003",
+      "QA-NOTIFY-004",
+      "QA-NOTIFY-005",
+      "QA-NOTIFY-006",
+      "QA-NOTIFY-007",
+      "QA-NOTIFY-008",
+      "QA-BALANCE-002",
+      "QA-NOTIFY-009",
+      "QA-NOTIFY-010",
+      "QA-NOTIFY-011",
+      "QA-LIVE-RT-002",
+      "QA-LIVE-BILL-001"
+    ]
+  },
+  {
+    "id": "FR-040",
+    "title": "Support Tickets",
+    "description": "Users create/reply to support tickets; authorized users update status",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/supportService.js",
+      "backend/DAL/repositories/supportRepository.js",
+      "frontend/src/components/Shared/SupportPage.js"
+    ],
+    "test_ids": [
+      "QA-SUPPORT-001",
+      "QA-SUPPORT-002",
+      "QA-SUPPORT-003",
+      "QA-NOTIFY-003",
+      "QA-SUPPORT-004",
+      "QA-SUPPORT-VALID-001"
+    ]
+  },
+  {
+    "id": "FR-041",
+    "title": "Reports and Analytics",
+    "description": "Admin/owner summary reports expose operational and financial indicators",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/adminService.js",
+      "backend/BLL/services/ownerService.js",
+      "frontend/src/components/Shared/ReportsPage.js"
+    ],
+    "test_ids": [
+      "QA-REPORT-001",
+      "QA-REPORT-002",
+      "QA-REPORT-003",
+      "QA-REPORT-004",
+      "QA-REPORT-005",
+      "QA-REPORT-006",
+      "QA-REPORT-007",
+      "QA-REPORT-008",
+      "QA-REPORT-009",
+      "QA-REPORT-010",
+      "QA-LIVE-FIN-003"
+    ]
+  },
+  {
+    "id": "FR-042",
+    "title": "Profile Management",
+    "description": "Authenticated users update permitted personal information",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/authService.js",
+      "frontend/src/components/Subscriber/SubscriberSettings.js",
+      "frontend/src/components/Owner/OwnerSettings.js",
+      "backend/DAL/repositories/accountRepository.js"
+    ],
+    "test_ids": [
+      "QA-PROFILE-001",
+      "QA-PROFILE-002",
+      "QA-SEC-014",
+      "QA-PROFILE-003"
+    ]
+  },
+  {
+    "id": "FR-043",
+    "title": "Password Management",
+    "description": "Authenticated user changes password and refresh tokens are revoked",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/authService.js",
+      "frontend/src/components/Shared/SecurityPage.js"
+    ],
+    "test_ids": [
+      "QA-AUTH-001",
+      "QA-PASSWORD-001",
+      "QA-SEC-010",
+      "QA-SEC-011",
+      "QA-SESSION-001",
+      "QA-SEC-COOKIE-001",
+      "QA-AUTH-010",
+      "QA-SEC-014",
+      "QA-SESSION-002",
+      "QA-LIVE-AUTH-005"
+    ]
+  },
+  {
+    "id": "FR-044",
+    "title": "System Settings",
+    "description": "Admin and owner manage permitted platform/business/billing settings",
+    "status": "implemented",
+    "implementation": [
+      "backend/DAL/repositories/adminRepository.js",
+      "backend/DAL/repositories/generatorRepository.js",
+      "frontend/src/components/Admin/AdminPages.js",
+      "frontend/src/components/Owner/OwnerSettings.js",
+      "backend/BLL/domain/platformSettingRules.js",
+      "backend/BLL/services/adminService.js"
+    ],
+    "test_ids": [
+      "QA-DB-002",
+      "QA-SETTINGS-001",
+      "QA-VALID-010",
+      "QA-VALID-011",
+      "QA-SETTINGS-002",
+      "QA-SETTINGS-003",
+      "QA-SETTINGS-004"
+    ]
+  },
+  {
+    "id": "FR-045",
+    "title": "Activity and Audit Tracking",
+    "description": "Important system actions are written to audit logs and viewable by admin",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/services/auditService.js",
+      "backend/DAL/repositories/auditRepository.js",
+      "frontend/src/components/Admin/AdminAudit.js"
+    ],
+    "test_ids": [
+      "QA-AUDIT-001",
+      "QA-DB-004",
+      "QA-LIVE-SEC-002",
+      "QA-LIVE-AUTH-008"
+    ]
+  },
+  {
+    "id": "FR-046",
+    "title": "Responsive User Interface",
+    "description": "Role interfaces are designed for desktop, tablet and mobile use",
+    "status": "implemented",
+    "implementation": [
+      "frontend/src/index.css",
+      "frontend/src/components/Layout/Layout.js"
+    ],
+    "test_ids": [
+      "QA-RESP-001",
+      "QA-RESP-002"
+    ]
+  },
+  {
+    "id": "NFR-001",
+    "title": "Security",
+    "description": "Authentication, RBAC, password hashing, rate limiting, input validation and auditability",
+    "status": "implemented",
+    "implementation": [
+      "backend/middleware/auth.js",
+      "backend/app.js",
+      "backend/BLL/domain/accountRules.js",
+      "backend/BLL/services/auditService.js",
+      "backend/BLL/services/socketAuthService.js",
+      "backend/server.js",
+      "backend/PL/routes/ownerRoutes.js",
+      "backend/PL/routes/collectorRoutes.js",
+      "backend/PL/routes/subscriberRoutes.js",
+      "backend/BLL/services/meterService.js",
+      "backend/database/demo-seed.sql",
+      "backend/scripts/seed-demo.js"
+    ],
+    "test_ids": [
+      "QA-SEC-001",
+      "QA-SEC-002",
+      "QA-SEC-003",
+      "QA-AUTH-002",
+      "QA-SEC-004",
+      "QA-SEC-005",
+      "QA-SEC-006",
+      "QA-SEC-007",
+      "QA-SEC-008",
+      "QA-SEC-009",
+      "QA-SEC-010",
+      "QA-SEC-011",
+      "QA-SEC-COOKIE-001",
+      "QA-SESSION-001",
+      "QA-ERR-002",
+      "QA-ERR-003",
+      "QA-NOTIFY-008",
+      "QA-SUPPORT-004",
+      "QA-SEC-013",
+      "QA-AUTH-010",
+      "QA-PROFILE-002",
+      "QA-SEC-014",
+      "QA-VALID-013",
+      "QA-VALID-014",
+      "QA-VALID-015",
+      "QA-SEC-015",
+      "QA-UPLOAD-PRIVACY-UAT-001",
+      "QA-SEC-016",
+      "QA-SEC-017",
+      "QA-LIVE-SEC-001",
+      "QA-LIVE-SEC-006",
+      "QA-LIVE-SEC-008",
+      "QA-LIVE-AUTH-002",
+      "QA-LIVE-AUTH-003",
+      "QA-LIVE-RT-001",
+      "QA-LIVE-RT-002",
+      "QA-LIVE-UP-001"
+    ]
+  },
+  {
+    "id": "NFR-002",
+    "title": "Maintainability",
+    "description": "Backend maintains PL -> BLL -> DAL dependency direction",
+    "status": "implemented",
+    "implementation": [
+      "backend/PL",
+      "backend/BLL",
+      "backend/DAL",
+      "backend/scripts/check-architecture.js"
+    ],
+    "test_ids": [
+      "QA-ARCH-001",
+      "QA-ARCH-UAT-001",
+      "QA-ARCH-002"
+    ]
+  },
+  {
+    "id": "NFR-003",
+    "title": "Data Integrity",
+    "description": "Financial history, invoice exchange rates and collector balances are protected",
+    "status": "implemented",
+    "implementation": [
+      "backend/BLL/domain/recordIntegrityRules.js",
+      "backend/BLL/domain/billingRules.js",
+      "backend/BLL/domain/collectorRules.js",
+      "backend/DAL/repositories/accountRepository.js"
+    ],
+    "test_ids": [
+      "QA-DATA-001",
+      "QA-DATA-002",
+      "QA-DATA-003",
+      "QA-PAY-003",
+      "QA-FIN-004",
+      "QA-FIN-005",
+      "QA-FIN-006",
+      "QA-FIN-007",
+      "QA-FIN-008",
+      "QA-FIN-009",
+      "QA-FIN-010",
+      "QA-FIN-011",
+      "QA-FIN-012",
+      "QA-PAY-006",
+      "QA-PAY-007",
+      "QA-PAY-008",
+      "QA-CONCUR-001",
+      "QA-CONCUR-002",
+      "QA-ERR-001",
+      "QA-ERR-004",
+      "QA-PROFILE-003",
+      "QA-LIVE-FIN-001",
+      "QA-LIVE-FIN-004",
+      "QA-LIVE-BILL-004",
+      "QA-LIVE-PAY-002"
+    ]
+  },
+  {
+    "id": "NFR-004",
+    "title": "Usability and Responsiveness",
+    "description": "Responsive mobile/desktop layouts with Arabic/English direction support",
+    "status": "implemented",
+    "implementation": [
+      "frontend/src/index.css",
+      "frontend/src/components/Layout/Layout.js",
+      "frontend/src/contexts/LangContext.js",
+      "frontend/src/components/Collector/CollectorDashboard.js"
+    ],
+    "test_ids": [
+      "QA-RESP-001",
+      "QA-RTL-001",
+      "QA-A11Y-001",
+      "QA-RTL-002",
+      "QA-PORTAL-I18N-001",
+      "QA-PORTAL-RTL-UAT-001"
+    ]
+  },
+  {
+    "id": "NFR-005",
+    "title": "Reliability",
+    "description": "Controlled validation/errors, test suite, API contract checks and repeatable QA commands",
+    "status": "implemented",
+    "implementation": [
+      "backend/middleware/errorHandler.js",
+      "backend/tests",
+      "backend/scripts/check-api-contract.js",
+      "frontend/src/components/Shared/ErrorBoundary.js",
+      "backend/app.js",
+      ".github/workflows/qa.yml",
+      "backend/scripts/smoke-db.js"
+    ],
+    "test_ids": [
+      "QA-API-001",
+      "QA-DB-001",
+      "QA-FIN-007",
+      "QA-FIN-009",
+      "QA-REPORT-002",
+      "QA-CONCUR-001",
+      "QA-CONCUR-002",
+      "QA-ERR-001",
+      "QA-ERR-002",
+      "QA-ERR-003",
+      "QA-ERR-004",
+      "QA-UI-ERR-001",
+      "QA-OPS-001",
+      "QA-SESSION-002",
+      "QA-DEPLOY-001",
+      "QA-DEPLOY-UAT-001",
+      "QA-DB-008",
+      "QA-CI-001",
+      "QA-LIVE-PAY-002",
+      "QA-LIVE-SET-001",
+      "QA-LIVE-UP-002"
+    ]
+  }
+]

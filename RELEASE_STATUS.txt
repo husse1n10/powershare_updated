@@ -1,0 +1,24 @@
+Registration update - 17 October 2026
+
+Register without a meter; immediate login while pending. Responsible generator owner or admin assigns later. Owner access is limited to own generators.
+Source QA: 172/172. Live suite: 52/52. E2E: 20/20. DB integrity: pass, 23 tables. Frontend build and registration browser flow: pass.
+Existing databases: run npm run db:migrate before using this update. See REGISTRATION_UPDATE.md.
+
+Original review follows:
+
+PowerShare - Generator Management System (RHMA Technologies)
+Status after independent QA review (October 2026)
+
+Executed and passing (MySQL 8.0.46, Node 22 / npm 10, Chromium 141):
+- npm run qa ............. 169/169 + architecture, syntax, API-contract and traceability gates
+- npm run qa:live ........ DB smoke (before and after), E2E 20/20, live HTTP+MySQL+Socket.IO suite 44/44
+- Frontend ............... npm ci + CI=true production build: compiled, 0 warnings
+- Browser ................ 4 roles x EN/AR x 3 screen sizes (72 page loads); owner billing flow through the UI
+- Requirements ........... 51/51 traceable; 37/51 covered by executable live tests
+- Defects (review) ....... DEF-051..DEF-075: 22 fixed, 1 deferred (DEF-063), 2 open (DEF-073, DEF-074)
+
+Still to execute before final acceptance:
+- OCR with real meter photographs (synthetic image passes)
+- Role-based UAT by the team; Arabic translation of the pages listed in DEF-073
+- First run of .github/workflows/qa.yml on GitHub (reproduced locally, not yet run on GitHub)
+- Existing databases: run `npm run db:migrate` once
