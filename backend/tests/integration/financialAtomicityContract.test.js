@@ -20,7 +20,7 @@ test('QA-FIN-007 payment update uses optimistic concurrency guard',()=>{
 });
 
 test('QA-FIN-008 collector payment and collector ledger entry share one transaction',()=>{
-  const fn=billingRepo.match(/async function recordPaymentAndUpdateBill[\s\S]*?\n}\nasync function listPaymentsByOwner/);
+  const fn=billingRepo.match(/async function recordPaymentAndUpdateBill[\s\S]*?\r?\n}\r?\nasync function listPaymentsByOwner/);
   assert.ok(fn,'recordPaymentAndUpdateBill not found');
   assert.match(fn[0],/INSERT INTO payments/);
   assert.match(fn[0],/INSERT INTO collector_ledger/);

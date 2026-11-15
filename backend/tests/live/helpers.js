@@ -14,7 +14,7 @@ const db=require('../../DAL/database/connection');
 const {uploadDir}=require('../../middleware/upload');
 
 const DEMO_PASSWORD=process.env.E2E_PASSWORD||'Admin@123456';
-const PASSWORD='Pass1234';
+const PASSWORD='QaPass123!';
 const uid=()=>`${Date.now().toString(36)}${Math.random().toString(36).slice(2,6)}`;
 const num=v=>Number(v);
 

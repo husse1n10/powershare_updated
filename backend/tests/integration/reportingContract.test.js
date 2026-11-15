@@ -13,7 +13,7 @@ const reportsUi=read('../../../frontend/src/components/Shared/ReportsPage.js');
 test('QA-REPORT-002 report endpoints accept a month/year period',()=>{
   assert.match(ownerCtrl,/service\.report\(req\.user\.id,req\.query\)/);
   assert.match(adminCtrl,/service\.reportSummary\(req\.query\)/);
-  assert.match(reportsUi,/params:period/);
+  assert.match(reportsUi,/params\s*:\s*period/);
 });
 
 test('QA-REPORT-003 report billed revenue uses current-period charges, not rolled previous debt',()=>{

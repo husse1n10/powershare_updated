@@ -8,11 +8,47 @@ after(()=>h.stopServer(ctx));
 const requestBody=(patch={})=>({full_name:'New Subscriber',username:'reg'+h.uid(),password:h.PASSWORD,phone:'+96171123456',generator_id:A.generator.id,location_address:'Beirut, building 12',...patch});
 async function apply(patch={}){
   const body=requestBody(patch);
-  const user=h.expectStatus(await ctx.call('POST','/api/auth/register',{body}),201,'register without meter');
+  const {generator_id,location_address,...account}=body;
+  const user=h.expectStatus(await ctx.call('POST','/api/auth/register',{body:account}),201,'register account without a provider');
   const token=await ctx.login(body.username);
+  h.expectStatus(await ctx.call('POST','/api/subscriber/registration-application',{token,body:{generator_id,location_address}}),201,'choose provider after login');
   return {body,user,token,id:user.application.id};
 }
 const assign=(a,body={},token=ctx.adminToken)=>ctx.call('PUT',`/api/admin/registration-applications/${a.id}/assign-meter`,{token,body:{plan_id:A.plan.id,meter_number:'M'+h.uid(),...body}});
+
+test('QA-LIVE-REG-009 account registration does not require any available destination',async()=>{
+  const {generator_id,location_address,...body}=requestBody({role:'admin'});
+  const user=h.expectStatus(await ctx.call('POST','/api/auth/register',{body}),201);
+  assert.equal(user.role,'subscriber');assert.equal(user.application.status,'unselected');
+  const token=await ctx.login(body.username);
+  const dashboard=h.expectStatus(await ctx.call('GET','/api/subscriber/dashboard',{token}),200);
+  assert.equal(dashboard.subscription,null);assert.equal(dashboard.registration_application.status,'unselected');assert.equal(dashboard.registration_application.generator_id,null);
+  assert.equal((await ctx.call('POST','/api/subscriber/registration-application',{body:{generator_id:A.generator.id,location_address:'QA address'}})).status,401);
+  assert.equal((await ctx.call('POST','/api/subscriber/registration-application',{token:A.token,body:{generator_id:A.generator.id,location_address:'QA address'}})).status,403);
+  const invalid=await ctx.call('POST','/api/subscriber/registration-application',{token,body:{generator_id:2147483647,location_address:'QA address'}});assert.equal(invalid.status,409);
+  const still=h.expectStatus(await ctx.call('GET','/api/subscriber/dashboard',{token}),200);assert.equal(still.registration_application.status,'unselected');
+  const pending=h.expectStatus(await ctx.call('POST','/api/subscriber/registration-application',{token,body:{generator_id:A.generator.id,location_address:'QA address',user_id:1}}),201);
+  assert.equal(pending.user_id,user.id);assert.equal(pending.status,'pending');
+});
+
+test('QA-LIVE-REG-010 concurrent provider choices create exactly one pending application',async()=>{
+  const {generator_id,location_address,...body}=requestBody();
+  const user=h.expectStatus(await ctx.call('POST','/api/auth/register',{body}),201);const token=await ctx.login(body.username);
+  const responses=await Promise.all([A.generator.id,B.generator.id].map(id=>ctx.call('POST','/api/subscriber/registration-application',{token,body:{generator_id:id,location_address:'QA selection'}})));
+  assert.deepEqual(responses.map(r=>r.status).sort(),[201,409]);
+  const rows=await h.db.query('SELECT status,generator_id FROM registration_applications WHERE user_id=?',[user.id]);assert.equal(rows.length,1);assert.equal(rows[0].status,'pending');
+});
+
+test('QA-LIVE-PASSWORD-001 signup and staff creation enforce the same strong password policy',async()=>{
+  for(const password of ['a123','Ab1!xyz','12345678','Pass1234','Aa12345 ','Aa1!'+'x'.repeat(69),null,12345678,{toString:null}]){
+    const body=requestBody({username:'weak'+h.uid(),password});
+    const rejected=await ctx.call('POST','/api/auth/register',{body});assert.equal(rejected.status,422);
+    assert.ok((rejected.data.details||[]).every(detail=>!Object.prototype.hasOwnProperty.call(detail,'value')),'Rejected credentials must not be echoed in validation details');
+    assert.equal((await ctx.call('POST','/api/admin/users',{token:ctx.adminToken,body:{...body,role:'owner'}})).status,422);
+    assert.equal((await ctx.call('POST','/api/owner/collector/create',{token:A.token,body})).status,422);
+  }
+  const body=requestBody({password:'Abc123!x'});h.expectStatus(await ctx.call('POST','/api/auth/register',{body}),201);assert.ok(await ctx.login(body.username,body.password));
+});
 
 test('QA-LIVE-REG-001 public destinations list contains available generators without user contact details',async()=>{
   const list=h.expectStatus(await ctx.call('GET','/api/auth/registration-destinations'),200);
@@ -24,7 +60,7 @@ test('QA-LIVE-REG-001 public destinations list contains available generators wit
 });
 test('QA-LIVE-REG-002 registration creates a login-ready pending account without a meter or profile',async()=>{
   const a=await apply();
-  assert.equal(a.user.role,'subscriber');assert.equal(a.user.password_hash,undefined);assert.equal(a.user.application.status,'pending');
+  assert.equal(a.user.role,'subscriber');assert.equal(a.user.password_hash,undefined);assert.equal(a.user.application.status,'unselected');
   const [u]=await h.db.query('SELECT is_active,password_hash FROM users WHERE id=?',[a.user.id]);
   assert.equal(u.is_active,1);assert.notEqual(u.password_hash,a.body.password);
   const [count]=await h.db.query('SELECT COUNT(*) n FROM subscriber_profiles WHERE user_id=?',[a.user.id]);assert.equal(h.num(count.n),0);
@@ -34,7 +70,7 @@ test('QA-LIVE-REG-002 registration creates a login-ready pending account without
   assert.equal(h.expectStatus(await ctx.call('GET','/api/auth/me',{token:a.token}),200).id,a.user.id);
 });
 test('QA-LIVE-REG-003 invalid applications and duplicate credentials create no orphan account',async()=>{
-  for(const patch of [{generator_id:0},{generator_id:2147483647},{location_address:''},{password:'@bad'},{meter_number:'CLIENT-ASSIGNED'}]){
+  for(const patch of [{password:'@bad'},{password:'Pass1234'},{phone:'71123456'},{meter_number:'CLIENT-ASSIGNED'}]){
     const body=requestBody(patch);const r=await ctx.call('POST','/api/auth/register',{body});assert.ok([409,422].includes(r.status),JSON.stringify(r.data));
     const [n]=await h.db.query('SELECT COUNT(*) n FROM users WHERE username=?',[body.username]);assert.equal(h.num(n.n),0);
   }

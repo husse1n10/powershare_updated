@@ -13,12 +13,16 @@ function registrationInput(data={}){
   const full_name=String(data.full_name||'').trim();
   const phone=String(data.phone||'').trim();
   const email=String(data.email||'').trim().toLowerCase()||null;
-  const location_address=String(data.location_address||'').trim();
   validateProfileData({full_name,phone,email,preferred_language:data.preferred_language||'en'});
   if(!/^\+961[0-9]{6,10}$/.test(phone))throw new AppError('Enter a Lebanese phone number beginning with +961',422,'INVALID_PHONE');
-  if(location_address.length<2||location_address.length>400)throw new AppError('Installation address must be between 2 and 400 characters',422,'INVALID_ADDRESS');
   if(data.meter_number!==undefined&&data.meter_number!==null&&String(data.meter_number).trim())throw new AppError('The generator owner or administrator assigns the meter number after registration',422,'METER_ASSIGNMENT_STAFF_ONLY');
-  return {full_name,username,phone,email,location_address,generator_id:positiveId(data.generator_id,'Where to apply'),preferred_language:data.preferred_language||'en'};
+  return {full_name,username,phone,email,preferred_language:data.preferred_language||'en'};
+}
+function applicationInput(data={}){
+  const location_address=String(data.location_address||'').trim();
+  if(location_address.length<2||location_address.length>400)throw new AppError('Installation address must be between 2 and 400 characters',422,'INVALID_ADDRESS');
+  if(data.meter_number)throw new AppError('Only staff can assign a meter number',422,'METER_ASSIGNMENT_STAFF_ONLY');
+  return {generator_id:positiveId(data.generator_id,'Generator'),location_address};
 }
 function assignmentInput(data={}){
   const meter_number=String(data.meter_number||'').trim();
@@ -30,4 +34,4 @@ function assignmentInput(data={}){
   return {meter_number,plan_id:positiveId(data.plan_id,'Plan'),initial_kwh_consumed,start_date};
 }
 function normalizedMeter(value){return String(value).replace(/[^A-Za-z0-9]/g,'').toUpperCase();}
-module.exports={registrationInput,assignmentInput,normalizedMeter};
+module.exports={registrationInput,applicationInput,assignmentInput,normalizedMeter};

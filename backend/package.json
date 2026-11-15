@@ -23,7 +23,8 @@
     "test:live": "node --test --test-concurrency=1 tests/live/*.test.js",
     "db:migrate": "node scripts/migrate-db.js",
     "db:reset": "node scripts/reset-db.js",
-    "db:admin": "node scripts/create-admin.js"
+    "db:admin": "node scripts/create-admin.js",
+    "test:db-budget": "node scripts/test-db-budget.js"
   },
   "engines": {
     "node": ">=18"

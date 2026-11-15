@@ -1,86 +1,38 @@
-# Deploy PowerShare on Heroku
+# Deploy the tested QA fixes to the existing PowerShare app
 
-These steps deploy the React site and Express API together on the existing `powersharelb` app. The JawsDB add-on stays attached. The database reset is a separate command that replaces all tables and views in the selected database with the new PowerShare tables and default settings. Run it only if that database is dedicated to PowerShare.
+The supplied source includes the account-first registration flow, strong password validation, private upload routing and the reports database pool fix. The live site tested on 14 November 2026 runs the previous build. Existing account passwords are kept. New accounts and password changes use at least eight characters with upper/lowercase letters, a number and a symbol, without spaces.
 
-## 1. Prepare the GitHub branch
+## Update the code
 
-1. Extract the ZIP. Use the folder containing `package.json`, `backend/` and `frontend/` as the repository root.
-2. Commit the contents to a private GitHub repository or to a replacement branch such as `heroku-update` in your existing repository. The root `package.json` and `package-lock.json` are already included. Keep the `.gitignore` and both subfolders' lockfiles. Keep your `.env` files, passwords, and database backups out of Git.
-3. Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) and run `heroku login` in the VS Code terminal.
-
-## 2. Take the app offline and make a backup
+1. Keep a verified structure-and-data backup of the existing JawsDB schema. Keep credentials and backups outside Git.
+2. Use the folder containing the root package.json, backend and frontend as your repository root. Commit the provided source to the branch connected to the existing `powersharelb` Heroku app.
+3. In Heroku, confirm `JAWSDB_URL` is still attached, `NODE_ENV=production`, `SERVE_FRONTEND=true`, and `FRONTEND_ORIGIN` is the live HTTPS origin. Keep the existing JWT secrets and administrator account. Set `DB_POOL_SIZE=2` for this single web process. This is a per-process connection budget, so allow for any additional dynos and one-off commands in the hosted account limit.
+4. Enable maintenance mode while deploying the branch and applying the schema update. Wait for a successful build/release.
 
 ```bash
 heroku maintenance:on --app powersharelb
-heroku ps --app powersharelb
-heroku ps:scale web=0 --app powersharelb
 ```
 
-The screenshot shows one web dyno. If your app configuration has changed, record the current dyno counts and pause any other processes or scheduled jobs that write to this database during the reset.
-
-In Heroku, open **Resources → JawsDB MySQL** to see the database connection details. In MySQL Workbench, connect to that server and use **Server → Data Export**. Select the exact JawsDB schema, choose **Dump Structure and Data** and **Export to Self-Contained File**, then start the export. Save the backup and check that the export succeeded.
-
-## 3. Set the Heroku config vars
-
-Click **Open app** on the Heroku dashboard to find the current canonical site URL. Open **Settings → Config Vars** and set these values.
-
-| Key | Value |
-|---|---|
-| `NODE_ENV` | `production` |
-| `SERVE_FRONTEND` | `true` |
-| `FRONTEND_ORIGIN` | The live HTTPS origin, with no trailing slash or path |
-| `JWT_SECRET` | The first new random secret |
-| `JWT_REFRESH_SECRET` | The second new random secret |
-
-Generate two secrets on your computer with this command and use one line per setting. Changing the secrets signs out old sessions and prevents a token issued for an old account ID from authenticating after IDs are reused.
+Deploy the branch from the Heroku Deploy tab, then run the additive/idempotent migrations:
 
 ```bash
-node -e "const c = require('node:crypto'); console.log(c.randomBytes(32).toString('hex')); console.log(c.randomBytes(32).toString('hex'));"
-```
-
-The code uses `JAWSDB_URL` supplied by the add-on, even if old `DB_*` vars are still present. Confirm that `JAWSDB_URL` is present. Heroku supplies `PORT` at runtime.
-
-## 4. Deploy the new branch
-
-In the **Deploy** tab of **powersharelb**, connect your GitHub repository. Under **Manual deploy**, select the branch containing the prepared files and click **Deploy Branch**. If the old branch has automatic deploys enabled, disable them while switching branches so a later push cannot re-deploy the older version.
-
-Wait for the build and release to succeed. If Heroku asks you to set a classic buildpack, choose `heroku/nodejs` under **Settings → Buildpacks**. If a build fails, resolve it before resetting JawsDB.
-
-## 5. Reset the database and create the admin
-
-Run the preview from your local terminal. It lists the database host, name, tables, and views.
-
-```bash
-heroku run --app powersharelb -- npm run db:reset
-```
-
-Check that the host and database name match the JawsDB dashboard and that the backup covers the objects in the preview. Then replace `YOUR_JAWSDB_DATABASE_NAME` below with the real name. **This permanently deletes the current data from that schema, including users, bills and payments.** You can recover the old data from the backup.
-
-```bash
-heroku run --app powersharelb -- npm run db:reset -- --confirm=YOUR_JAWSDB_DATABASE_NAME
+heroku run --app powersharelb -- npm --prefix backend run db:migrate
 heroku run --app powersharelb -- npm run test:db
-heroku run --app powersharelb -- npm run db:admin
-```
-
-Run one command at a time and check the result before continuing. The smoke test should report **25/25 required tables**. The last command prints the username `admin` and a random password in your attached terminal. Save the password privately. Use the attached `heroku run` command shown above so the password is returned to your terminal.
-
-## 6. Bring the site back online
-
-```bash
-heroku ps:scale web=1 --app powersharelb
-heroku ps --app powersharelb
+heroku restart --app powersharelb
 heroku maintenance:off --app powersharelb
 ```
 
-Wait for the web dyno to show **up** before turning maintenance off. Open your app and add `/api/ready` to its URL. It should return `"status":"ready"`. Then open the homepage and log in with the new admin password. Add an owner and an active generator before trying subscriber registration.
+Run each command separately and check its result. Migration 003 makes the provider/address optional at account creation and adds the `unselected` application status. It preserves existing application rows and meter assignments. Migrations were executed twice successfully in the isolated MySQL QA database.
 
-If the web dyno crashes, run `heroku logs --tail --app powersharelb`. A Heroku code rollback and a JawsDB restore are separate operations. After a reset, restoring the old release's data requires importing your backup.
+This update uses migrations. Do not run `db:reset`, `db:init` or `db:seed:demo` on the deployed database. They are initialization/fixture commands for a separate test database. Do not recreate the administrator account or replace current credentials.
 
-## References
+## Verify this deployed release
 
-- [Heroku Node.js builds](https://devcenter.heroku.com/articles/nodejs-classic-buildpack-builds)
-- [Heroku GitHub deploys](https://devcenter.heroku.com/articles/github-integration)
-- [Heroku maintenance mode](https://devcenter.heroku.com/articles/maintenance-mode)
-- [Heroku one-off dynos](https://devcenter.heroku.com/articles/working-with-one-off-dynos)
-- [JawsDB connection and backups](https://devcenter.heroku.com/articles/jawsdb)
-- [MySQL Workbench export and import](https://dev.mysql.com/doc/workbench/en/wb-admin-export-import-management.html)
+- Open `/api/ready` and confirm readiness, then sign in with the existing administrator.
+- Register a fresh QA subscriber without a provider or installation address using a strong password. Sign in and choose a provider/address. Verify staff can assign that subscriber a meter and plan.
+- Create a QA generator. Its creation form contains generator details, with meter creation on the dedicated meter screens.
+- Open owner/admin reports for a selected month. Check the logs and hosted database quota if `DATABASE_BUSY` persists. The smaller pool passed a restricted-connection MySQL test locally; the exact hosted account quota still needs checking after deployment.
+- Check a private `/uploads/meters/...` URL: it must return 404, without a successful React page or private image bytes.
+- Check account creation/password changes, support keyboard actions, audit actor names, Arabic navigation and mobile layouts.
+
+The packaged execution evidence distinguishes the old deployed build from the patched local build. Only a deployed retest can close that distinction. Azure work-item import is separate from application deployment.

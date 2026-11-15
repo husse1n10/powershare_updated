@@ -43,11 +43,11 @@ test('QA-LIVE-AUTH-004 logout revokes the refresh token',async()=>{
 
 test('QA-LIVE-AUTH-005 password change invalidates existing access and refresh tokens',async()=>{
   const username=await newUser();const s=await loginRaw(username);
-  h.expectStatus(await ctx.call('PUT','/api/auth/change-password',{token:s.data.accessToken,body:{current_password:h.PASSWORD,new_password:'NewPass9876'}}),200);
+  h.expectStatus(await ctx.call('PUT','/api/auth/change-password',{token:s.data.accessToken,body:{current_password:h.PASSWORD,new_password:'NewPass9876!'}}),200);
   const me=await ctx.call('GET','/api/auth/me',{token:s.data.accessToken});assert.equal(me.status,401);assert.equal(me.data.code,'SESSION_INVALIDATED');
   assert.equal((await refresh(s.cookie)).status,401);
   assert.equal((await loginRaw(username)).status,401,'old password no longer works');
-  assert.equal((await loginRaw(username,'NewPass9876')).status,200);
+  assert.equal((await loginRaw(username,'NewPass9876!')).status,200);
 });
 
 test('QA-LIVE-AUTH-006 a deactivated account loses access immediately and cannot log in',async()=>{

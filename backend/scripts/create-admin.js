@@ -13,7 +13,7 @@ async function main() {
       throw new Error('An administrator or a user named admin already exists');
     }
 
-    const password = randomBytes(18).toString('hex');
+    const password = 'Aa1!' + randomBytes(18).toString('base64url');
     await users.create({
       full_name: 'PowerShare Admin',
       username: 'admin',

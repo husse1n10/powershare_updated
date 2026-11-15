@@ -7,6 +7,7 @@ function notFound(req, _res, next) {
 
 function normalizeError(err){
   if(err instanceof AppError || err?.statusCode) return err;
+  if(['ER_USER_LIMIT_REACHED','ER_TOO_MANY_USER_CONNECTIONS','ER_CON_COUNT_ERROR'].includes(err?.code))return new AppError('The database is temporarily busy. Please try again shortly.',503,'DATABASE_BUSY');
   if(err?.code==='ER_DUP_ENTRY') return new AppError('A record with the same unique value already exists',409,'DUPLICATE_RESOURCE');
   if(err?.code==='ER_NO_REFERENCED_ROW_2' || err?.code==='ER_ROW_IS_REFERENCED_2') return new AppError('The requested operation conflicts with related records',409,'DATA_INTEGRITY_CONFLICT');
   if(err?.code==='ER_DATA_TOO_LONG' || err?.code==='ER_TRUNCATED_WRONG_VALUE_FOR_FIELD' || err?.code==='ER_WARN_DATA_OUT_OF_RANGE') return new AppError('One or more values are invalid for this field',422,'INVALID_DATA');
@@ -23,11 +24,12 @@ function errorHandler(originalErr, req, res, _next) {
   const status = err.statusCode || (err instanceof AppError ? 400 : 500);
   const payload = {
     success: false,
-    error: status>=500 && process.env.NODE_ENV==='production' ? 'Internal server error' : (err.message || 'Internal server error'),
+    error: status>=500 && process.env.NODE_ENV==='production' && !(err instanceof AppError) ? 'Internal server error' : (err.message || 'Internal server error'),
     code: err.code || 'INTERNAL_ERROR',
   };
   if (err.details) payload.details = err.details;
   if (process.env.NODE_ENV !== 'production' && status >= 500) payload.stack = err.stack;
+  if(err.code==='DATABASE_BUSY')res.set('Retry-After','5');
   res.status(status).json(payload);
 }
 

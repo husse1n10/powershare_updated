@@ -20,13 +20,13 @@
         <mxCell id="psreg-input" value="Enter full name, username,&lt;br&gt;phone, password and&lt;br&gt;optional email" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="395.0" y="95.0" width="250" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="psreg-destination" value="Choose where to apply&lt;br&gt;and enter installation address" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="psreg-destination" value="Choose preferred language" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="775.0" y="105.0" width="250" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="psreg-submit" value="Submit registration&lt;br&gt;and application" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="psreg-submit" value="Submit account registration" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="790.0" y="255.0" width="220" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="psreg-valid" value="Required details&lt;br&gt;and destination valid?" style="shape=rhombus;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="psreg-valid" value="Personal details and&lt;br&gt;strong password valid?" style="shape=rhombus;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="790.0" y="380.0" width="220" height="120" as="geometry" />
         </mxCell>
         <mxCell id="psreg-validation_error" value="Show validation error" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
@@ -44,7 +44,7 @@
         <mxCell id="psreg-hash" value="Hash password" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="790.0" y="825.0" width="220" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="psreg-create" value="Create active account and&lt;br&gt;application for chosen destination;&lt;br&gt;status: Awaiting meter assignment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="psreg-create" value="Create active subscriber account&lt;br&gt;and unselected application;&lt;br&gt;provider and address remain empty" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="755.0" y="945.0" width="290" height="110" as="geometry" />
         </mxCell>
         <mxCell id="psreg-created" value="Saved&lt;br&gt;successfully?" style="shape=rhombus;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
@@ -53,10 +53,10 @@
         <mxCell id="psreg-creation_error" value="Roll back partial changes;&lt;br&gt;show error and allow retry" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="480.0" y="1105.0" width="240" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="psreg-audit" value="Record registration; notify&lt;br&gt;responsible owner and admin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="psreg-audit" value="Record account registration;&lt;br&gt;provider selection follows login" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="765.0" y="1250.0" width="270" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="psreg-success" value="Confirm account created;&lt;br&gt;subscriber can log in now" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
+        <mxCell id="psreg-success" value="Confirm account created;&lt;br&gt;sign in, then choose a provider" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="775.0" y="1390.0" width="250" height="80" as="geometry" />
         </mxCell>
         <mxCell id="psreg-login" value="Redirect to login page" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;fontFamily=Arial;fontSize=14;strokeWidth=1;" vertex="1" parent="1">

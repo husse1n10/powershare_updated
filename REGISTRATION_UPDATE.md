@@ -1,40 +1,30 @@
-# Registration and meter assignment update
+# Account-first registration and meter assignment
 
-New subscribers no longer need a meter number to create an account.
+Updated requirement: 14 November 2026.
 
-1. Enter personal details and credentials, choose the generator/service area, and enter the installation address. Email is optional.
-2. Submit registration. The system creates an active account and a pending application together.
-3. Log in immediately. The dashboard shows **Awaiting meter assignment**, the selected generator, provider and installation address.
-4. The **responsible generator owner or an administrator** opens **Subscriber applications**. Owners see applications for their own generators; administrators see all applications.
-5. Select the application, enter a unique meter number, choose an active plan for the requested generator and enter the initial reading.
-6. The system links the meter, subscriber profile and subscription, records the assigning user, and notifies the subscriber. The dashboard updates without requiring another login; Refresh status is also available while pending.
+1. Create an account with personal details, optional email, language and a strong password. No generator, installation address or meter is needed at this point.
+2. Sign in immediately. The subscriber dashboard offers provider/service-area selection and an installation-address field.
+3. Submit the request. The application now shows **Awaiting meter assignment**.
+4. The responsible owner or an administrator opens **Subscriber applications**, chooses an eligible plan, supplies a unique subscriber meter and initial reading, and saves.
+5. The subscriber refreshes the dashboard to access the assigned subscription. Other owners cannot view or assign this request.
 
-Meter assignment is independent of login. It can happen after registration whether or not the subscriber has logged in yet.
+Password requirements apply to all new accounts and password changes: at least eight characters, uppercase/lowercase letters, a number and a symbol, with no spaces. Existing credentials are preserved. Registration does not depend on any provider being available.
 
 ## Upgrade an existing installation
 
-Keep your existing database and backend `.env` configuration. From `backend/`, install the dependencies and run:
+Keep the current database and credentials. Install dependencies, run `npm run db:migrate` from backend, build the frontend and restart. Migration 003 adds the unselected stage without deleting existing accounts or assignments. Run migrations again safely if needed. Use **DEPLOY_HEROKU.md** for the existing deployment. Initialization/reset/demo-seeding commands are only for a separate test database.
 
-```text
-npm ci
-npm run db:migrate
-```
+The source QA, live-MySQL, API, frontend component and Chromium tests were rerun on the patched source. See the separately supplied QA package for exact results, environments, bugs and retests. Those local results do not mean the old deployed build has been updated.
 
-Migration `002_subscriber_applications.sql` adds the application table. The migration runner applies all migrations in order; running it again is safe. Do not re-seed an existing working database for this update.
+## Diagrams
 
-From `frontend/`, run `npm ci` and `npm run build` for a deployed build, then restart the application. The existing development commands also continue to work. On Windows, extract the project to a short path such as `C:\Projects\PowerShare` to avoid Windows dependency path-length limits.
+The Registration draw.io file now describes account creation before provider choice. Provider selection after login is documented in `qa/client-requirements-update.md`. Meter Assignment remains a separate staff workflow. Original Azure Sprints 1–5 and their diagrams were not changed.
 
-For a new installation, follow the main README's database setup instructions. Owner-created accounts for existing subscribers continue to work.
+## Historical verification for the earlier registration flow
 
-## Editable activity diagrams
+The following earlier results describe the prior provider-at-registration design and are retained as history only.
 
-- `docs/activity-diagrams/Registration _ Activity Diagram.drawio`: registration ends with immediate access to the login page.
-- `docs/activity-diagrams/Meter Assignment _ Activity Diagram.drawio`: separate assignment by the responsible generator owner or an administrator.
-- `docs/activity-diagrams/Login _ Activity Diagram.drawio`: login workflow.
-
-Each file contains editable draw.io shapes and connectors. All decision diamonds contain questions; there are no empty merge diamonds.
-
-## Verified on 17 October 2026
+### Verified on 17 October 2026
 
 - Source QA: 172/172 tests; architecture, syntax, API contract and requirements checks pass.
 - Live HTTP, MySQL and Socket.IO suite: 52/52 tests, including 8 registration/assignment tests.

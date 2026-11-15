@@ -35,4 +35,11 @@ function databaseConfig() {
   };
 }
 
-module.exports = { databaseConfig };
+function poolConfig() {
+  const value=process.env.DB_POOL_SIZE;
+  const connectionLimit=value===undefined||value===''?(process.env.JAWSDB_URL?2:10):Number(value);
+  if(!Number.isInteger(connectionLimit)||connectionLimit<1||connectionLimit>100)throw new Error('DB_POOL_SIZE must be an integer between 1 and 100');
+  return {connectionLimit};
+}
+
+module.exports = { databaseConfig, poolConfig };

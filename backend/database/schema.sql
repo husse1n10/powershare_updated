@@ -177,9 +177,9 @@ CREATE TABLE IF NOT EXISTS subscriptions (
 CREATE TABLE IF NOT EXISTS registration_applications (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL UNIQUE,
-  generator_id INT NOT NULL,
-  location_address VARCHAR(400) NOT NULL,
-  status ENUM('pending','assigned') NOT NULL DEFAULT 'pending',
+  generator_id INT NULL,
+  location_address VARCHAR(400) NULL,
+  status ENUM('unselected','pending','assigned') NOT NULL DEFAULT 'unselected',
   subscriber_id INT NULL UNIQUE,
   assigned_by INT NULL,
   assigned_at DATETIME NULL,

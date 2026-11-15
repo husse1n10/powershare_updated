@@ -59,3 +59,22 @@ test('QA-LIVE-UPD-002 (DEF-060) main meter partial updates do not fail or reset 
   r=h.expectStatus(await ctx.call('PUT',`/api/owner/main-meters/${mm.id}`,{token:T.token,body:{meter_number:`${mm.meter_number}X`}}),200);
   assert.equal(h.num(r.initial_kwh),6000);
 });
+
+test('assigned collector can recognize and confirm OCR; unassigned subscriber remains forbidden',async()=>{
+  const number='QC'+String(Date.now()).slice(-7);
+  const own=await h.createSubscriber(ctx,T,{meter:number,initial:1000});
+  const collector=await h.createCollector(ctx,T);
+  h.expectStatus(await ctx.call('PUT',`/api/owner/collector/${collector.id}/assignments`,{token:T.token,body:{subscriber_ids:[own.subscriber_id],generator_ids:[]}}),200);
+  const list=h.expectStatus(await ctx.call('GET','/api/collector/subscribers',{token:collector.token}),200);
+  assert.ok(list.some(s=>s.subscriber_id===own.subscriber_id));
+  const png=await meterImage([`METER NO: ${number}`,'KWH: 01580.5']);
+  const preview=h.expectStatus(await ctx.call('POST','/api/collector/meter-readings/scan',{token:collector.token,form:form(png,'image/png','meter.png')}),200);
+  assert.equal(preview.subscriber.subscriber_id,own.subscriber_id);
+  assert.equal(preview.ocr.readingValue,1580.5);
+  const bill=await h.generateBill(ctx,collector.token,{subscription_id:own.subscription_id,month:1,year:2026,current_reading:1581,reading_date:'2026-01-20',ocr_confirmed:true,ocr:preview.ocr},{role:'collector'});
+  const [reading]=await h.db.query('SELECT * FROM meter_readings WHERE id=?',[bill.meter_reading_id]);
+  assert.equal(Number(reading.reading_value),1581);assert.equal(Number(reading.ocr_reading_value),1580.5);assert.equal(reading.ocr_confirmed,1);
+  const other=await h.createSubscriber(ctx,T,{meter:'UN'+number});
+  const denied=await ctx.call('POST','/api/collector/meter-readings/scan',{token:collector.token,form:form(await meterImage([`METER NO: UN${number}`,'KWH: 01580.5']),'image/png','other.png')});
+  assert.equal(denied.status,403);assert.equal(denied.data.code,'NOT_ASSIGNED');
+});

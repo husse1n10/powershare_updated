@@ -59,10 +59,11 @@ export default function Login() {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label className="form-label">{t.username}</label>
+            <label htmlFor="login-username" className="form-label">{t.username}</label>
             <div className="search-wrap">
               <span className="search-icon"><FiUser /></span>
               <input
+                id="login-username"
                 className="form-control"
                 value={form.username}
                 onChange={e => setForm(f=>({...f,username:e.target.value}))}
@@ -72,10 +73,11 @@ export default function Login() {
             </div>
           </div>
           <div className="mb-4">
-            <label className="form-label">{t.password}</label>
+            <label htmlFor="login-password" className="form-label">{t.password}</label>
             <div className="search-wrap">
               <span className="search-icon"><FiLock /></span>
               <input
+                id="login-password"
                 type="password"
                 className="form-control"
                 value={form.password}

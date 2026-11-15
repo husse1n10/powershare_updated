@@ -13,7 +13,7 @@ export default function OwnerGenerators() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ name:'', location_name:'', main_meter_number:'', total_kw:'', is_active:1 });
+  const [form, setForm] = useState({ name:'', location_name:'', total_kw:'', is_active:1 });
   const [msg, setMsg] = useState(null);
 
   const load = useCallback(async () => {
@@ -23,8 +23,8 @@ export default function OwnerGenerators() {
 
   useEffect(() => { load(); }, [load]);
 
-  const openCreate = () => { setEditing(null); setForm({ name:'', location_name:'', main_meter_number:'', total_kw:'', is_active:1 }); setShowModal(true); };
-  const openEdit = (g) => { setEditing(g.id); setForm({ name:g.name||'', location_name:g.location_name||'', main_meter_number:g.main_meter_number||'', total_kw:g.total_kw??'', is_active:g.is_active?1:0 }); setShowModal(true); };
+  const openCreate = () => { setEditing(null); setForm({ name:'', location_name:'', total_kw:'', is_active:1 }); setShowModal(true); };
+  const openEdit = (g) => { setEditing(g.id); setForm({ name:g.name||'', location_name:g.location_name||'', total_kw:g.total_kw??'', is_active:g.is_active?1:0 }); setShowModal(true); };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,11 +88,6 @@ export default function OwnerGenerators() {
                   </span>
                 </div>
 
-                {g.main_meter_number && (
-                  <div style={{ fontSize:'0.78rem', color:'var(--text-sub)', marginBottom:10 }}>
-                    Meter: <code>{g.main_meter_number}</code>
-                  </div>
-                )}
                 {/* Mini stats — fluid 3-col grid */}
                 <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:6, marginBottom:14 }}>
                   {[
@@ -134,10 +129,6 @@ export default function OwnerGenerators() {
               <div className="col-12">
                 <label className="form-label">{t.locationName} *</label>
                 <input className="form-control" value={form.location_name} onChange={e=>setForm(f=>({...f,location_name:e.target.value}))} required />
-              </div>
-              <div className="col-12">
-                <label className="form-label">{t.meterNumber}</label>
-                <input className="form-control" value={form.main_meter_number} onChange={e=>setForm(f=>({...f,main_meter_number:e.target.value}))} />
               </div>
               <div className="col-12 col-sm-6">
                 <label className="form-label">{t.totalKW}</label>

@@ -1,11 +1,11 @@
 'use strict';
 const mysql = require('mysql2/promise');
-const { databaseConfig } = require('./config');
+const { databaseConfig, poolConfig } = require('./config');
 
 const pool = mysql.createPool({
   ...databaseConfig(),
   waitForConnections: true,
-  connectionLimit: 10,
+  ...poolConfig(),
   queueLimit: 0,
   timezone: 'Z',
 });

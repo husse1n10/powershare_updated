@@ -1,5 +1,6 @@
 'use strict';
 const AppError=require('../../utils/AppError');
+const PASSWORD_PATTERN=/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9\s])\S{8,128}$/;
 
 function normalizeUsername(value){return String(value||'').trim();}
 function validateUsername(value){
@@ -14,11 +15,12 @@ function validateRoleCreationContext(role,{ownerId=null}={}){
   return true;
 }
 function validatePassword(value){
-  const password=String(value??'');
-  // Client requirement: minimum four letters/digits; do not silently raise to 8+.
-  if(password.length<4)throw new AppError('Password must be at least 4 characters',422,'WEAK_PASSWORD');
+  if(typeof value!=='string')throw new AppError('Password must be text',422,'INVALID_PASSWORD_FORMAT');
+  const password=value;
+  if(password.length<8)throw new AppError('Password must be at least 8 characters',422,'WEAK_PASSWORD');
   if(password.length>128)throw new AppError('Password must be 128 characters or fewer',422,'INVALID_PASSWORD_LENGTH');
-  if(!/^[A-Za-z0-9]+$/.test(password))throw new AppError('Password must contain letters and/or digits only',422,'INVALID_PASSWORD_FORMAT');
+  if(!PASSWORD_PATTERN.test(password))throw new AppError('Password must include uppercase and lowercase letters, a number and a symbol, without spaces',422,'INVALID_PASSWORD_FORMAT');
+  if(Buffer.byteLength(password,'utf8')>72)throw new AppError('Password is too long. Use a shorter password.',422,'INVALID_PASSWORD_LENGTH');
   return password;
 }
 function validateProfileData(data={}){
@@ -28,4 +30,4 @@ function validateProfileData(data={}){
   if(data.preferred_language!==undefined&&!['en','ar'].includes(String(data.preferred_language)))throw new AppError('Preferred language must be en or ar',422,'INVALID_LANGUAGE');
   return true;
 }
-module.exports={normalizeUsername,validateUsername,validateRoleCreationContext,validatePassword,validateProfileData};
+module.exports={PASSWORD_PATTERN,normalizeUsername,validateUsername,validateRoleCreationContext,validatePassword,validateProfileData};

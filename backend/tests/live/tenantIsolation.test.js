@@ -24,7 +24,7 @@ test('QA-LIVE-SEC-001 owner cannot modify any resource of another owner (IDOR) a
     ['PUT',`${p}/main-meters/${B.mainMeter.id}`,{meter_number:'HACK'}],['DELETE',`${p}/main-meters/${B.mainMeter.id}`],
     ['PUT',`${p}/plans/${B.plan.id}`,{name:'Hacked'}],['DELETE',`${p}/plans/${B.plan.id}`],
     ['PUT',`${p}/plan-pricing-rules`,{plan_id:B.plan.id,month:1,year:2026,base_cost_below_lbp:1}],['DELETE',`${p}/plan-pricing-rules/${B.plan.id}?month=1&year=2026`],
-    ['PUT',`${p}/subscribers/${b.sub.subscriber_id}`,{full_name:'Hacked Name'}],['POST',`${p}/subscribers/${b.sub2.subscriber_id}/account`,{username:`steal${h.uid()}`,password:'Pass1234'}],
+    ['PUT',`${p}/subscribers/${b.sub.subscriber_id}`,{full_name:'Hacked Name'}],['POST',`${p}/subscribers/${b.sub2.subscriber_id}/account`,{username:`steal${h.uid()}`,password:'QaPass123!'}],
     ['DELETE',`${p}/subscriptions/${b.sub.subscription_id}`],['DELETE',`${p}/subscriptions/${b.sub2.subscription_id}/permanent`],['POST',`${p}/subscriptions/${b.sub.subscription_id}/resubscribe`,{}],
     ['POST',`${p}/meter-readings`,{subscription_id:b.sub.subscription_id,reading_value:5000}],['POST',`${p}/bills`,{subscription_id:b.sub2.subscription_id,month:1,year:2026,current_reading:1100}],
     ['PUT',`${p}/bills/${b.bill.id}/pay`,{amount_lbp:1000}],['DELETE',`${p}/bills/${b.bill.id}`],['POST',`${p}/bills/${b.bill.id}/remind`],['POST',`${p}/bills/combine`,{bill_ids:[b.bill.id,a.bill.id]}],
@@ -94,9 +94,11 @@ test('QA-LIVE-SEC-006 role-based access control blocks every cross-role endpoint
 });
 
 test('QA-LIVE-SEC-007 self-registration creates a pending request without claiming existing subscriber profiles',async()=>{
-  const body={full_name:'New applicant',username:'reg'+h.uid(),password:'Pass1234',phone:a.sub2.phone,generator_id:A.generator.id,location_address:'Main street'};
+  const body={full_name:'New applicant',username:'reg'+h.uid(),password:'QaPass123!',phone:a.sub2.phone,generator_id:A.generator.id,location_address:'Main street'};
   const ok=h.expectStatus(await ctx.call('POST','/api/auth/register',{body}),201);
-  assert.equal(ok.application.status,'pending');
+  assert.equal(ok.application.status,'unselected');
+  const token=await ctx.login(body.username,body.password);
+  h.expectStatus(await ctx.call('POST','/api/subscriber/registration-application',{token,body:{generator_id:A.generator.id,location_address:'Main street'}}),201);
   const [link]=await h.db.query('SELECT user_id FROM subscriber_profiles WHERE id=?',[a.sub2.subscriber_id]);assert.equal(link.user_id,null);
   const bad=await ctx.call('POST','/api/auth/register',{body:{...body,username:'bad'+h.uid(),meter_number:a.sub2.meter_number}});
   assert.equal(bad.status,422);assert.equal(bad.data.code,'METER_ASSIGNMENT_STAFF_ONLY');

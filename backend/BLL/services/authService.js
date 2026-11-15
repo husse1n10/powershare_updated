@@ -8,6 +8,8 @@ const accountRepo = require('../../DAL/repositories/accountRepository');
 const AppError = require('../../utils/AppError');
 const {validateUsername,validatePassword,validateProfileData}=require('../domain/accountRules');
 const audit=require('./auditService');
+const adminRepo=require('../../DAL/repositories/adminRepository');
+async function displayUser(user){const safe=publicUser(user);safe.platform_name=await adminRepo.getSettingValue('platform_name')||'PowerShare';return safe;}
 
 const ACCESS_MINUTES = Number(process.env.ACCESS_TOKEN_MINUTES || 30);
 const REFRESH_DAYS = Number(process.env.REFRESH_TOKEN_DAYS || 7);
@@ -18,7 +20,7 @@ function hashToken(token){ return crypto.createHash('sha256').update(token).dige
 // issued to the same user within one second were byte-identical.
 function signAccess(user){ return jwt.sign({ sub:user.id, role:user.role, ver:Number(user.auth_version||1), type:'access', jti:crypto.randomUUID() }, accessSecret(), { expiresIn:`${ACCESS_MINUTES}m` }); }
 function signRefresh(user){ return jwt.sign({ sub:user.id, role:user.role, ver:Number(user.auth_version||1), type:'refresh', jti:crypto.randomUUID() }, refreshSecret(), { expiresIn:`${REFRESH_DAYS}d` }); }
-function publicUser(user){ const { password_hash, ...safe } = user; return safe; }
+const publicUser=require('../../utils/publicUser');
 
 async function login(identifier,password,req=null){
   const id=String(identifier||'').trim();
@@ -30,7 +32,7 @@ async function login(identifier,password,req=null){
   const exp=new Date(Date.now()+REFRESH_DAYS*86400000);
   await userRepo.insertRefreshToken(user.id,hashToken(refreshToken),exp);
   if(req){req.user={id:user.id,role:user.role,full_name:user.full_name,username:user.username};await audit.logFromRequest(req,'LOGIN_SUCCESS','user',user.id);}
-  return { accessToken, refreshToken, user:publicUser(user) };
+  return { accessToken, refreshToken, user:await displayUser(user) };
 }
 
 async function refresh(refreshToken){
@@ -48,7 +50,7 @@ async function refresh(refreshToken){
   const nextRefreshToken=signRefresh(user);
   const exp=new Date(Date.now()+REFRESH_DAYS*86400000);
   await userRepo.insertRefreshToken(user.id,hashToken(nextRefreshToken),exp);
-  return { accessToken:signAccess(user), refreshToken:nextRefreshToken, user:publicUser(user) };
+  return { accessToken:signAccess(user), refreshToken:nextRefreshToken, user:await displayUser(user) };
 }
 
 async function logout(refreshToken){ if(refreshToken) await userRepo.deleteRefreshToken(hashToken(refreshToken)); return true; }
@@ -65,7 +67,7 @@ async function changePassword(userId,currentPassword,newPassword,req=null){
 
 async function me(userId){
   const user=await userRepo.findById(userId); if(!user) throw new AppError('User not found',404,'USER_NOT_FOUND');
-  const safe=publicUser(user);
+  const safe=await displayUser(user);
   if(user.role==='owner') safe.owner=await profileRepo.getOwnerByUserId(user.id);
   if(user.role==='collector') safe.collector=await profileRepo.getCollectorByUserId(user.id);
   if(user.role==='subscriber') safe.subscriber=await profileRepo.getSubscriberByUserId(user.id);

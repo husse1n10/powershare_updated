@@ -9,6 +9,11 @@ const {validate}=require('../../middleware/validate');
 const r=express.Router();
 r.use(authenticate,requireSubscriber);
 const id=(name='id')=>param(name).isInt({min:1});
+r.get('/registration-destinations',h(c.destinations));
+r.post('/registration-application',[
+  body('generator_id').isInt({min:1,max:2147483647}),
+  body('location_address').trim().isLength({min:2,max:400}),
+],validate,h(c.apply));
 r.get('/dashboard',h(c.dashboard));
 r.get('/subscription',h(c.subscription));
 r.get('/consumption',h(c.consumption));

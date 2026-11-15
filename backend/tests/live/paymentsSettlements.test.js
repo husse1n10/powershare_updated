@@ -75,3 +75,13 @@ test('QA-LIVE-SET-004 collector ledger: collected - transferred = remaining cash
   const totals=h.expectStatus(await ctx.call('GET','/api/owner/collector',{token:T.token}),200).totals;
   assert.equal(totals.collected_lbp,3200000);assert.equal(totals.transferred_lbp,1200000);assert.equal(totals.balance_lbp,2000000);
 });
+
+test('collector and owner wallet summaries expose reconciled totals and reserve pending cash',async()=>{
+  const wallet=h.expectStatus(await ctx.call('GET','/api/collector/wallet',{token:C.token}),200);
+  assert.equal(wallet.collected_lbp-wallet.transferred_lbp,wallet.pending_lbp+wallet.available_lbp);
+  assert.equal(wallet.balance_lbp,wallet.collected_lbp-wallet.transferred_lbp);
+  assert.equal(wallet.collected_lbp,3200000);assert.equal(wallet.transferred_lbp,1200000);
+  const owner=h.expectStatus(await ctx.call('GET','/api/owner/collector',{token:T.token}),200);
+  const row=owner.collectors.find(c=>c.id===C.id);
+  for(const key of ['collected_lbp','transferred_lbp','balance_lbp','pending_lbp','available_lbp','pending_count'])assert.equal(row.wallet[key],wallet[key],key);
+});

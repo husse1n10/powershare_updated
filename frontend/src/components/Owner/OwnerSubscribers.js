@@ -1,3 +1,4 @@
+import { PASSWORD_PATTERN } from '../../utils/passwordPolicy';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Modal } from 'react-bootstrap';
 import api from '../../services/api';
@@ -120,7 +121,7 @@ export default function OwnerSubscribers() {
       await api.post('/owner/subscribers/create', {
         ...form,
         plan_id: selectedPlan.id,
-        main_meter_id: selectedMainMeter ? selectedMainMeter.id : '',
+        main_meter_id: selectedMainMeter ? selectedMainMeter.id : null,
         fixed_amount_enabled: !!form.fixed_amount_enabled,
         fixed_amount_usd: form.fixed_amount_enabled ? form.fixed_amount_usd : 0,
       });
@@ -161,7 +162,7 @@ export default function OwnerSubscribers() {
     try {
       await api.put(`/owner/subscribers/${editingSubscriber.subscriber_id}`, {
         ...editForm,
-        main_meter_id: selectedEditMainMeter ? selectedEditMainMeter.id : '',
+        main_meter_id: selectedEditMainMeter ? selectedEditMainMeter.id : null,
         fixed_amount_enabled: !!editForm.fixed_amount_enabled,
         fixed_amount_usd: editForm.fixed_amount_enabled ? editForm.fixed_amount_usd : 0,
       });
@@ -632,7 +633,7 @@ export default function OwnerSubscribers() {
           <Modal.Body>
             <div className="alert alert-info">Create login credentials for <b>{accountSubscriber?.full_name}</b>. This links the portal account to the existing subscriber record.</div>
             <div className="mb-3"><label className="form-label">Username</label><input className="form-control" minLength={3} pattern="[A-Za-z0-9_.-]+" value={accountForm.username} onChange={e=>setAccountForm(f=>({...f,username:e.target.value}))} required autoFocus /></div>
-            <div className="mb-2"><label className="form-label">Temporary Password</label><input type="password" className="form-control" minLength={4} value={accountForm.password} onChange={e=>setAccountForm(f=>({...f,password:e.target.value}))} required /></div>
+            <div className="mb-2"><label className="form-label">Temporary Password</label><input type="password" className="form-control" minLength={8} maxLength={72} pattern={PASSWORD_PATTERN} value={accountForm.password} onChange={e=>setAccountForm(f=>({...f,password:e.target.value}))} required /></div>
             <small className="text-muted">The subscriber can change the password from Profile & Security after login.</small>
           </Modal.Body>
           <Modal.Footer><button type="button" className="btn btn-secondary" onClick={()=>setAccountSubscriber(null)} disabled={accountBusy}>Cancel</button><button className="btn btn-primary" disabled={accountBusy}>{accountBusy?'Creating...':'Create Account'}</button></Modal.Footer>

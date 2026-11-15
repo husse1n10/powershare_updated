@@ -204,7 +204,7 @@ export default function Layout({ children }) {
           </div>
         </header>
 
-        <main className="page-content" id="main-content">
+        <main className="page-content" id="main-content" tabIndex={-1}>
           {children}
         </main>
       </div>

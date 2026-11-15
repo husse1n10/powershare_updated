@@ -39,6 +39,6 @@ test('QA-LIVE-RT-002 a notification reaches only the authenticated owner of the 
 });
 
 test('QA-LIVE-RT-003 a token invalidated by password change cannot open a socket',async()=>{
-  h.expectStatus(await ctx.call('PUT','/api/auth/change-password',{token:SB.token,body:{current_password:h.PASSWORD,new_password:'Changed1234'}}),200);
+  h.expectStatus(await ctx.call('PUT','/api/auth/change-password',{token:SB.token,body:{current_password:h.PASSWORD,new_password:'Changed1234!'}}),200);
   await assert.rejects(connect(SB.token),/unauthorized/);
 });

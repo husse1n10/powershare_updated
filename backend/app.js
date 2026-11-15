@@ -37,6 +37,8 @@ app.use('/api/owner',ownerRoutes);
 app.use('/api/collector',collectorRoutes);
 app.use('/api/subscriber',subscriberRoutes);
 app.use('/api',commonRoutes);
+// Private upload paths are reserved even when the React SPA is served here.
+app.use('/uploads',notFound);
 
 // Optional single-service deployment: after `npm run build` in frontend/, set
 // SERVE_FRONTEND=true and Express will serve the current React production build.

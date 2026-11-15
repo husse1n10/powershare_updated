@@ -6,6 +6,7 @@ const h=require('../../utils/asyncHandler');
 const {authenticate,requireAdmin}=require('../../middleware/auth');
 const {validate}=require('../../middleware/validate');
 
+const {PASSWORD_PATTERN}=require('../../BLL/domain/accountRules');
 const r=express.Router();
 r.use(authenticate,requireAdmin);
 const id=(name='id')=>param(name).isInt({min:1});
@@ -26,8 +27,8 @@ r.get('/users',[
 ],validate,h(c.listUsers));
 r.post('/users',[
   body('full_name').trim().isLength({min:2,max:150}),
-  body('username').trim().isLength({min:3,max:80}).matches(/^[A-Za-z0-9_.-]+$/),
-  body('password').isLength({min:4,max:128}).matches(/^[A-Za-z0-9]+$/),
+  body('username').isString().bail().trim().isLength({min:3,max:80}).matches(/^[A-Za-z0-9_.-]+$/),
+  body('password').isString().bail().isLength({min:8,max:128}).matches(PASSWORD_PATTERN),
   body('role').isIn(['admin','owner']),
   body('email').optional({checkFalsy:true}).isEmail().isLength({max:150}),
   body('phone').optional({checkFalsy:true}).trim().isLength({min:6,max:30}).matches(/^[+0-9() .-]+$/),
@@ -35,8 +36,8 @@ r.post('/users',[
 ],validate,h(c.createUser));
 r.put('/users/:id',[id(),
   body('full_name').optional().trim().isLength({min:2,max:150}),
-  body('username').optional().trim().isLength({min:3,max:80}).matches(/^[A-Za-z0-9_.-]+$/),
-  body('password').optional({checkFalsy:true}).isLength({min:4,max:128}).matches(/^[A-Za-z0-9]+$/),
+  body('username').optional().isString().bail().trim().isLength({min:3,max:80}).matches(/^[A-Za-z0-9_.-]+$/),
+  body('password').optional({checkFalsy:true}).isString().bail().isLength({min:8,max:128}).matches(PASSWORD_PATTERN),
   body('email').optional({checkFalsy:true}).isEmail().isLength({max:150}),
   body('phone').optional({checkFalsy:true}).trim().isLength({min:6,max:30}).matches(/^[+0-9() .-]+$/),
   body('business_name').optional({checkFalsy:true}).trim().isLength({max:200}),

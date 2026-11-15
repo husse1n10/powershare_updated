@@ -2,6 +2,7 @@
 const bcrypt=require('bcryptjs');
 const userRepo=require('../../DAL/repositories/userRepository');
 const accountRepo=require('../../DAL/repositories/accountRepository');
+const publicUser=require('../../utils/publicUser');
 const AppError=require('../../utils/AppError');
 const {validateUsername,validatePassword,validateRoleCreationContext}=require('../domain/accountRules');
 async function createUser(data,{ownerId=null}={}){
@@ -14,7 +15,7 @@ async function createUser(data,{ownerId=null}={}){
   if(role==='subscriber'&&!data.subscriber_profile_id)throw new AppError('Subscriber profile is required',422,'SUBSCRIBER_PROFILE_REQUIRED');
   const hash=await bcrypt.hash(data.password,12);
   try{
-    return await accountRepo.createUserWithRoleProfile({full_name:data.full_name,username,email:data.email,phone:data.phone,password_hash:hash,role,is_active:data.is_active??1,preferred_language:data.preferred_language||'en',business_name:data.business_name,company_address:data.company_address},{ownerId,subscriberProfileId:data.subscriber_profile_id||null});
+    return publicUser(await accountRepo.createUserWithRoleProfile({full_name:data.full_name,username,email:data.email,phone:data.phone,password_hash:hash,role,is_active:data.is_active??1,preferred_language:data.preferred_language||'en',business_name:data.business_name,company_address:data.company_address},{ownerId,subscriberProfileId:data.subscriber_profile_id||null}));
   }catch(err){
     if(err?.code==='OWNER_NOT_FOUND')throw new AppError('Generator owner not found',404,'OWNER_NOT_FOUND');
     if(err?.code==='SUBSCRIBER_PROFILE_NOT_FOUND')throw new AppError('Subscriber profile not found',404,'SUBSCRIBER_PROFILE_NOT_FOUND');
@@ -46,7 +47,7 @@ async function updateUser(id,data){
   const passwordChanged=!!data.password;
   if(passwordChanged){validatePassword(data.password);fields.password_hash=await bcrypt.hash(data.password,12);}
   const updated=await userRepo.update(id,fields);
-  if(passwordChanged){await userRepo.bumpAuthVersion(id);await userRepo.deleteUserRefreshTokens(id);return userRepo.findById(id);}
-  return updated;
+  if(passwordChanged){await userRepo.bumpAuthVersion(id);await userRepo.deleteUserRefreshTokens(id);return publicUser(await userRepo.findById(id));}
+  return publicUser(updated);
 }
 module.exports={createUser,updateUser};

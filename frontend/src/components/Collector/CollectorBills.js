@@ -38,12 +38,12 @@ function toUsd(lbp, rate) {
 }
 
 function resolveBillDueLbp(bill) {
-  const amountDue = Number(bill?.amount_due_lbp);
+  const amountDue = Number(bill?.remaining_balance_lbp ?? bill?.amount_due_lbp);
   return Number.isFinite(amountDue) ? amountDue : Number(bill?.total_ttc_lbp || 0);
 }
 
 function resolveBillDueUsd(bill) {
-  const amountDueUsd = Number(bill?.amount_due_usd);
+  const amountDueUsd = Number(bill?.remaining_balance_usd ?? bill?.amount_due_usd);
   if (Number.isFinite(amountDueUsd)) return amountDueUsd;
   return toUsd(resolveBillDueLbp(bill), bill?.usd_lbp_rate);
 }
@@ -60,7 +60,7 @@ export default function CollectorBills() {
   const [activeSection, setActiveSection] = useState('bills');
   const [filters, setFilters] = useState({
     search: '',
-    status: 'unpaid',
+    status: '',
     month: now.month,
     year: now.year,
   });
@@ -89,7 +89,7 @@ export default function CollectorBills() {
       if (filters.month) params.month = filters.month;
       if (filters.year) params.year = filters.year;
 
-      const unpaidParams = { status: 'unpaid' };
+      const unpaidParams = {};
       if (filters.search) unpaidParams.search = filters.search;
 
       const [billsRes, unpaidBillsRes, walletRes, settlementsRes] = await Promise.all([
@@ -206,7 +206,7 @@ export default function CollectorBills() {
 
   const unpaidPeriods = useMemo(
     () => allUnpaidBills
-      .filter((b) => b.status === 'unpaid')
+      .filter((b) => ['unpaid','partially_paid'].includes(b.status))
       .map((b) => ({
         id: Number(b.id),
         subscriber_name: b.subscriber_name || '-',
@@ -428,6 +428,7 @@ export default function CollectorBills() {
               >
                 <option value="">{t.allStatuses || 'All Statuses'}</option>
                 <option value="unpaid">{t.unpaid}</option>
+                <option value="partially_paid">{t.partially_paid || 'Partially Paid'}</option>
                 <option value="paid">{t.paid}</option>
                 <option value="waived">{t.waived}</option>
               </AppSelect>
@@ -525,7 +526,7 @@ export default function CollectorBills() {
                           <FiPrinter />
                         </button>
                       )}
-                      {b.status==='unpaid' && (
+                      {['unpaid','partially_paid'].includes(b.status) && (
                         <button className="btn btn-sm btn-outline-success" onClick={()=>openPaymentModal(b)}>
                           <FiCheckCircle /> {t.markPaid}
                         </button>
@@ -576,7 +577,7 @@ export default function CollectorBills() {
                                 <FiPrinter />
                               </button>
                             )}
-                            {b.status==='unpaid' && (
+                            {['unpaid','partially_paid'].includes(b.status) && (
                               <button className="btn btn-sm btn-outline-success" onClick={()=>openPaymentModal(b)}>
                                 <FiCheckCircle /> {t.markPaid}
                               </button>

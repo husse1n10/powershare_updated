@@ -25,7 +25,7 @@ async function generateForContext(owner,userId,input){
     const previous=await subscriberRepo.previousReading(sub.subscription_id,sub.initial_kwh_consumed);
     assertClientPreviousReading(input.previous_reading,previous);
     consumption=calculateConsumption(suppliedReading,previous);
-    const reading=await subscriberRepo.createReading({subscription_id:sub.subscription_id,reading_value:Number(suppliedReading),previous_value:previous,reading_date:input.reading_date||`${input.year}-${String(input.month).padStart(2,'0')}-28`,created_by:userId,ocr_confirmed:false});
+    const reading=await subscriberRepo.createReading({subscription_id:sub.subscription_id,reading_value:Number(suppliedReading),previous_value:previous,reading_date:input.reading_date||`${input.year}-${String(input.month).padStart(2,'0')}-28`,created_by:userId,ocr_confirmed:input.ocr_confirmed===true,ocr_meter_number:input.ocr?.meterNumber||null,ocr_reading_value:input.ocr?.readingValue??null,ocr_confidence:input.ocr?.confidence??null});
     meterReadingId=reading.id;createdReadingId=reading.id;
   }else if(meterReadingId){
     const readings=await subscriberRepo.listReadings(sub.subscription_id);const r=readings.find(x=>Number(x.id)===Number(meterReadingId));if(!r)throw new AppError('Meter reading not found',404,'READING_NOT_FOUND');if(await billingRepo.isReadingBilled(meterReadingId))throw new AppError('This meter reading has already been billed',409,'READING_ALREADY_BILLED');consumption=Number(r.kwh_diff||0);

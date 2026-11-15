@@ -3,6 +3,7 @@ import {
   FiCamera, FiRefreshCw, FiSave, FiUploadCloud,
 } from 'react-icons/fi';
 import api from '../../services/api';
+import { normalizeMeterScan } from '../../utils/meterScan';
 import { useLang } from '../../contexts/LangContext';
 
 function todayLocalIso() {
@@ -77,7 +78,7 @@ function isImageFile(file) {
 }
 
 function SummaryRow({ items }) {
-  const visibleItems = items.filter((item) => item && item.value !== undefined && item.value !== null && item.value !== '');
+  const visibleItems = items.filter((item) => item && (item.render || (item.value !== undefined && item.value !== null && item.value !== '')));
   if (!visibleItems.length) return null;
 
   return (
@@ -153,7 +154,7 @@ export default function MeterScanPage({ scope = 'owner' }) {
       const res = await api.post(`${basePath}/meter-readings/scan`, payload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      const data = res.data || null;
+      const data = normalizeMeterScan(res.data);
       setScanResult(data);
       setSelectedSubscriber(data?.subscriber || null);
       setPreviousReading(toFiniteNumber(data?.previous_value));
@@ -163,13 +164,13 @@ export default function MeterScanPage({ scope = 'owner' }) {
       }));
       const messageTemplate = t.matchedMeterAndReading || 'Matched meter {meter} and detected reading {reading}.';
       setMsg({
-        type: 'success',
-        text: messageTemplate
+        type: data?.subscriber && data?.reading_value != null ? 'success' : 'warning',
+        text: data?.subscriber && data?.reading_value != null ? messageTemplate
           .replace('{meter}', data?.meter_number || '-')
-          .replace('{reading}', data?.reading_value ?? '-'),
+          .replace('{reading}', data?.reading_value ?? '-') : (t.meterScanMismatchHelp || 'Could not match this meter photo.'),
       });
     } catch (err) {
-      const data = err.response?.data || null;
+      const data = normalizeMeterScan(err.response?.data);
       setScanResult(data);
       setSelectedSubscriber(data?.subscriber || null);
       setPreviousReading(toFiniteNumber(data?.previous_value));
@@ -253,7 +254,9 @@ export default function MeterScanPage({ scope = 'owner' }) {
           subscription_id: selectedSubscriber.subscription_id,
           month,
           year,
-          new_meter_reading: readingValue,
+          current_reading: readingValue,
+          ocr_confirmed: true,
+          ocr: { meterNumber: scanResult.meter_number, readingValue: scanResult.reading_value, confidence: scanResult.confidence },
           reading_date: form.reading_date,
           notes: form.notes || '',
         });
@@ -264,7 +267,9 @@ export default function MeterScanPage({ scope = 'owner' }) {
           subscription_id: selectedSubscriber.subscription_id,
           month,
           year,
-          new_meter_reading: readingValue,
+          current_reading: readingValue,
+          ocr_confirmed: true,
+          ocr: { meterNumber: scanResult.meter_number, readingValue: scanResult.reading_value, confidence: scanResult.confidence },
           reading_date: form.reading_date,
           notes: form.notes || '',
         });

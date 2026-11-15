@@ -6,7 +6,7 @@ PowerShare is a web-based generator management platform designed for private gen
 
 ## Registration update — 17 October 2026
 
-Subscribers register without a meter number and can log in immediately. The responsible generator owner or an administrator assigns the meter separately. Owners can access only applications for their own generators. Existing databases require `npm run db:migrate` before starting the updated app. See [REGISTRATION_UPDATE.md](REGISTRATION_UPDATE.md) for the flow, upgrade steps, editable activity diagrams and current test results.
+Subscribers create an account without a provider, installation address or meter number and can log in immediately. They choose a provider and address after signing in. The responsible generator owner or an administrator assigns the meter separately. Owners can access only applications for their own generators. Existing databases require `npm run db:migrate` before starting the updated app. See [REGISTRATION_UPDATE.md](REGISTRATION_UPDATE.md) for the flow, upgrade steps, editable activity diagrams and current test results.
 
 ## Architecture
 

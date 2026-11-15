@@ -5,7 +5,7 @@ const AppError=require('../../utils/AppError');
 const applicationSelect=`SELECT a.*,u.full_name,u.username,u.email,u.phone,
  g.name generator_name,g.location_name,go.business_name provider_name,
  sp.meter_number FROM registration_applications a JOIN users u ON u.id=a.user_id
- JOIN generators g ON g.id=a.generator_id JOIN generator_owners go ON go.id=g.owner_id
+ LEFT JOIN generators g ON g.id=a.generator_id LEFT JOIN generator_owners go ON go.id=g.owner_id
  LEFT JOIN subscriber_profiles sp ON sp.id=a.subscriber_id`;
 
 async function listDestinations(){
@@ -20,7 +20,7 @@ async function getById(id,ownerUserId=null){
   return queryOne(applicationSelect+' WHERE a.id=?'+(ownerUserId===null?'':' AND go.user_id=?'),ownerUserId===null?[id]:[id,ownerUserId]);
 }
 async function listApplications(status='pending',ownerUserId=null){
-  const conditions=[],params=[];
+  const conditions=["a.status<>'unselected'"],params=[];
   if(status!=='all'){conditions.push('a.status=?');params.push(status);}
   if(ownerUserId!==null){conditions.push('go.user_id=?');params.push(ownerUserId);}
   return query(applicationSelect+(conditions.length?' WHERE '+conditions.join(' AND '):'')+' ORDER BY a.created_at,a.id LIMIT 200',params);
@@ -42,13 +42,25 @@ async function lockDestination(conn,generatorId){
 }
 async function createApplication(data){
   return transaction(async conn=>{
-    const destination=await lockDestination(conn,data.generator_id);
     const [user]=await conn.execute(`INSERT INTO users(full_name,username,email,phone,password_hash,role,is_active,preferred_language)
       VALUES (?,?,?,?,?,'subscriber',1,?)`,[data.full_name,data.username,data.email,data.phone,data.password_hash,data.preferred_language]);
-    const [application]=await conn.execute(`INSERT INTO registration_applications(user_id,generator_id,location_address,status)
-      VALUES (?,?,?,'pending')`,[user.insertId,data.generator_id,data.location_address]);
+    const [application]=await conn.execute(`INSERT INTO registration_applications(user_id,status)
+      VALUES (?,'unselected')`,[user.insertId]);
     const [rows]=await conn.execute('SELECT id,full_name,username,email,phone,role,is_active,preferred_language FROM users WHERE id=?',[user.insertId]);
-    return {user:rows[0],application_id:application.insertId,owner_user_id:destination.owner_user_id,status:'pending'};
+    return {user:rows[0],application_id:application.insertId,status:'unselected'};
+  });
+}
+async function chooseDestination(userId,data){
+  return transaction(async conn=>{
+    const [rows]=await conn.execute(`SELECT a.id,a.status,u.full_name FROM registration_applications a
+      JOIN users u ON u.id=a.user_id WHERE a.user_id=? AND u.is_active=1 AND u.role='subscriber' FOR UPDATE`,[userId]);
+    const application=rows[0];
+    if(!application)throw new AppError('Subscriber application not found',404,'APPLICATION_NOT_FOUND');
+    if(application.status!=='unselected')throw new AppError('A generator has already been selected. Refresh your application.',409,'APPLICATION_ALREADY_SUBMITTED');
+    const destination=await lockDestination(conn,data.generator_id);
+    await conn.execute(`UPDATE registration_applications SET generator_id=?,location_address=?,status='pending'
+      WHERE id=? AND status='unselected'`,[data.generator_id,data.location_address,application.id]);
+    return {id:application.id,user_id:userId,full_name:application.full_name,owner_user_id:destination.owner_user_id,status:'pending'};
   });
 }
 async function assignMeter(id,data,actorId,normalizedMeter,ownerUserId=null){
@@ -79,4 +91,4 @@ async function assignMeter(id,data,actorId,normalizedMeter,ownerUserId=null){
     return {id,user_id:a.user_id,status:'assigned',meter_number:data.meter_number,subscriber_id:profile.insertId,subscription_id:subscription.insertId};
   });
 }
-module.exports={listDestinations,getByUserId,getById,listApplications,plansForApplication,createApplication,assignMeter};
+module.exports={listDestinations,getByUserId,getById,listApplications,plansForApplication,createApplication,chooseDestination,assignMeter};

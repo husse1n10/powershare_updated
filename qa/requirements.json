@@ -21,7 +21,7 @@
   {
     "id": "FR-002",
     "title": "Account Registration and Creation",
-    "description": "New subscribers choose a generator and register without a meter; login is available immediately while the responsible generator owner or an admin assigns the meter.",
+    "description": "Subscribers create an account first without choosing a provider or address, sign in, then select an active generator and installation address. The responsible owner or administrator assigns the subscriber meter and plan.",
     "status": "implemented",
     "implementation": [
       "backend/PL/routes/authRoutes.js",
@@ -37,7 +37,9 @@
       "frontend/src/components/Subscriber/PendingApplication.js",
       "backend/PL/routes/ownerRoutes.js",
       "backend/PL/controllers/ownerController.js",
-      "frontend/src/components/Shared/RouteGuards.js"
+      "frontend/src/components/Shared/RouteGuards.js",
+      "backend/database/migrations/003_account_before_provider.sql",
+      "backend/PL/routes/subscriberRoutes.js"
     ],
     "test_ids": [
       "QA-REG-001",
@@ -815,7 +817,7 @@
   {
     "id": "FR-043",
     "title": "Password Management",
-    "description": "Authenticated user changes password and refresh tokens are revoked",
+    "description": "All new and changed passwords require at least eight characters, uppercase/lowercase letters, a number and a symbol, with no whitespace; non-string inputs and inputs exceeding 72 UTF-8 bytes are rejected. Current sessions are invalidated after changes.",
     "status": "implemented",
     "implementation": [
       "backend/BLL/services/authService.js",
@@ -831,7 +833,8 @@
       "QA-AUTH-010",
       "QA-SEC-014",
       "QA-SESSION-002",
-      "QA-LIVE-AUTH-005"
+      "QA-LIVE-AUTH-005",
+      "QA-LIVE-PASSWORD-001"
     ]
   },
   {
